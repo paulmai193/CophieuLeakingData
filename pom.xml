@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>logia</groupId>
 			<artifactId>logia-httpclient</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.2</version>
 		</dependency>		
 		<dependency>
 			<groupId>logia</groupId>

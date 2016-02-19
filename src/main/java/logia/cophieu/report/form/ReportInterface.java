@@ -1,5 +1,9 @@
 package logia.cophieu.report.form;
 
+import java.util.List;
+
+import logia.cophieu.model.DataInterface;
+
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -12,12 +16,10 @@ public interface ReportInterface extends AutoCloseable {
 	/**
 	 * Creates the data.
 	 *
-	 * @param idBranch the id branch
-	 * @param from the from
-	 * @param to the to
-	 * @param dataSheet the data sheet
+	 * @param __datas the __datas
+	 * @param __sheet the __sheet
 	 */
-	public void createData(Integer idBranch, String from, String to, SheetInterface dataSheet);
+	public void createData(List<DataInterface> __datas, SheetInterface __sheet);
 
 	/**
 	 * Export report.

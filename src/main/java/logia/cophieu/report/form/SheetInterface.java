@@ -19,20 +19,6 @@ public interface SheetInterface {
 	 *
 	 * @param rowIndex the row index
 	 * @param columnIndex the column index
-	 * @param content the content
-	 * @param isBold the is bold
-	 * @param align the align
-	 * @param haveBorder the have border
-	 * @return the XSSF cell
-	 */
-	@Deprecated
-	public XSSFCell createCell(int rowIndex, int columnIndex, String content, boolean isBold, byte align, boolean haveBorder);
-
-	/**
-	 * Creates the cell.
-	 *
-	 * @param rowIndex the row index
-	 * @param columnIndex the column index
 	 * @param content the content. Content is instance of Boolean, Calenda, Date, Double, RichTextString, String
 	 * @param isBold the is bold
 	 * @param align the align
@@ -40,14 +26,22 @@ public interface SheetInterface {
 	 * @param wrapText the wrap text
 	 * @return the XSSF cell
 	 */
-	public XSSFCell createCell(int rowIndex, int columnIndex, Object content, boolean isBold, byte align, boolean haveBorder, boolean wrapText);
+	public XSSFCell createCell(int __rowIndex, int __columnIndex, Object __content, boolean __isBold, byte __align, boolean __haveBorder,
+	        boolean __wrapText);
 
 	/**
 	 * Creates the data.
 	 *
 	 * @param listData the list data
 	 */
-	public void createData(List<DataInterface> listData);
+	public void createData(List<DataInterface> __listData);
+
+	/**
+	 * Creates the data.
+	 *
+	 * @param __data the __data
+	 */
+	public void createData(DataInterface __data);
 
 	/**
 	 * Creates the form.
@@ -60,4 +54,13 @@ public interface SheetInterface {
 	 * @return the worksheet
 	 */
 	public XSSFSheet getWorksheet();
+
+	/**
+	 * Gets the cell value.
+	 *
+	 * @param __rowIndex the __row index
+	 * @param __columnIndex the __column index
+	 * @return the cell value
+	 */
+	public String getCellValue(int __rowIndex, int __columnIndex);
 }

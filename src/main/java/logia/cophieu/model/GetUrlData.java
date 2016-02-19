@@ -2,6 +2,7 @@ package logia.cophieu.model;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * The Class GetUrlData.
@@ -11,10 +12,10 @@ import java.util.Map;
 public class GetUrlData {
 
 	/** The ma ck. */
-	private String           maCk;
+	private String                 maCk;
 
 	/** The co tuc. */
-	private Map<Date, Float> coTuc;
+	private SortedMap<Date, Float> coTuc;
 
 	/**
 	 * Instantiates a new gets the url data.
@@ -29,7 +30,7 @@ public class GetUrlData {
 	 * @param __maCk the __ma ck
 	 * @param __coTuc the __co tuc
 	 */
-	public GetUrlData(String __maCk, Map<Date, Float> __coTuc) {
+	public GetUrlData(String __maCk, SortedMap<Date, Float> __coTuc) {
 		super();
 		this.maCk = __maCk;
 		this.coTuc = __coTuc;
@@ -67,7 +68,7 @@ public class GetUrlData {
 	 *
 	 * @param __coTuc the coTuc to set
 	 */
-	public void setCoTuc(Map<Date, Float> __coTuc) {
+	public void setCoTuc(SortedMap<Date, Float> __coTuc) {
 		this.coTuc = __coTuc;
 	}
 

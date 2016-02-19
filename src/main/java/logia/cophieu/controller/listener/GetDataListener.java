@@ -8,10 +8,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ import logia.httpclient.HttpUtility;
 import logia.httpclient.response.listener.HttpResponseListener;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 
 /**
  * The listener interface for receiving getData events. The class that is interested in processing a getData event implements this interface, and the
@@ -31,8 +33,11 @@ import org.apache.commons.io.IOUtils;
  */
 public class GetDataListener implements HttpResponseListener<GetUrlData> {
 
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = Logger.getLogger(GetDataListener.class);
+
 	/** The data. */
-	private GetUrlData data;
+	private GetUrlData          data;
 
 	/**
 	 * Gets the data.
@@ -61,14 +66,22 @@ public class GetDataListener implements HttpResponseListener<GetUrlData> {
 
 		// TODO
 		List<String> _listElement = readRow(_html);
-		System.out.println(Arrays.toString(_listElement.toArray()));
+		LOGGER.debug(Arrays.toString(_listElement.toArray()));
 
 		GetUrlData _data = new GetUrlData();
 		_data.setMaCk("REE");
+		SortedMap<Date, Float> _coTuc = new TreeMap<Date, Float>(new Comparator<Date>() {
+
+			@Override
+			public int compare(Date __o1, Date __o2) {
+				return __o1.compareTo(__o2);
+			}
+
+		});
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		for (String _element : _listElement) {
 			// Read date
-			Map<Date, Float> _coTuc = new HashMap<Date, Float>();
+
 			try {
 				Date _ngay = df.parse(readDate(_element));
 
@@ -76,14 +89,21 @@ public class GetDataListener implements HttpResponseListener<GetUrlData> {
 				Float _share = 10000 * (Float.parseFloat(_percentage.replace("%", "")) / 100);
 
 				_coTuc.put(_ngay, _share);
-				System.out.println(_coTuc);
 			}
 			catch (ParseException _e) {
-				_e.printStackTrace();
+				LOGGER.warn(_e.getMessage(), _e);
 			}
 		}
+		_data.setCoTuc(_coTuc);
+		LOGGER.debug(_data.getCoTuc());
 	}
 
+	/**
+	 * Read row.
+	 *
+	 * @param __webContent the __web content
+	 * @return the list
+	 */
 	private List<String> readRow(String __webContent) {
 		List<String> _contents = new ArrayList<String>();
 
@@ -102,6 +122,12 @@ public class GetDataListener implements HttpResponseListener<GetUrlData> {
 		return _contents;
 	}
 
+	/**
+	 * Read date.
+	 *
+	 * @param __webContent the __web content
+	 * @return the string
+	 */
 	private String readDate(String __webContent) {
 		Matcher _matcher = Pattern.compile("<td class=\"td_bottom3 td_bg1\" align=\"right\">(.*?)</td>").matcher(__webContent);
 		int _count = 0;
@@ -114,6 +140,12 @@ public class GetDataListener implements HttpResponseListener<GetUrlData> {
 		return null;
 	}
 
+	/**
+	 * Read share.
+	 *
+	 * @param __webContent the __web content
+	 * @return the string
+	 */
 	private String readShare(String __webContent) {
 		Matcher _matcher = Pattern.compile("<td class=\"td_bottom3 td_bg2\" align=\"right\" style=\" font-weight:bold\">(.*?)</td>").matcher(
 		        __webContent);

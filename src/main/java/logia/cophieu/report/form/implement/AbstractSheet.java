@@ -51,64 +51,6 @@ public abstract class AbstractSheet implements SheetInterface {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.nowktv.report.form.SheetInterface#createCell(int, int, java.lang.String, boolean, byte, boolean)
-	 */
-	@Override
-	public XSSFCell createCell(int rowIndex, int columnIndex, String content, boolean isBold, byte align, boolean haveBorder) {
-		XSSFRow row = this.worksheet.getRow(rowIndex);
-		if (row == null) {
-			row = this.worksheet.createRow(rowIndex);
-		}
-		XSSFCell cell = row.createCell(columnIndex);
-		cell.setCellValue(content);
-
-		// Set style
-		XSSFCellStyle cellStyle = this.worksheet.getWorkbook().createCellStyle();
-
-		this.worksheet.autoSizeColumn(columnIndex, true);
-
-		// // Border
-		if (haveBorder) {
-			cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-			cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-			cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-			cellStyle.setBorderRight(CellStyle.BORDER_THIN);
-		}
-		// // Align
-		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
-		switch (align) {
-			case ALIGN_CENTER:
-				cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
-				break;
-
-			case ALIGN_RIGHT:
-				cellStyle.setAlignment(CellStyle.ALIGN_RIGHT);
-				break;
-
-			default:
-				cellStyle.setAlignment(CellStyle.ALIGN_LEFT);
-				break;
-		}
-		// // Set font
-		XSSFFont cellFont = this.worksheet.getWorkbook().createFont();
-		cellFont.setFontName("Arial");
-		cellFont.setFontHeightInPoints((short) 11);
-		if (isBold) {
-			cellFont.setBold(true);
-		}
-		else {
-			cellFont.setBold(false);
-		}
-		cellStyle.setFont(cellFont);
-
-		cell.setCellStyle(cellStyle);
-
-		return cell;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.nowktv.report.form.SheetInterface#createCell(int, int, java.lang.Object, boolean, byte, boolean)
 	 */
 	@Override
@@ -194,5 +136,12 @@ public abstract class AbstractSheet implements SheetInterface {
 	@Override
 	public XSSFSheet getWorksheet() {
 		return this.worksheet;
+	}
+
+	@Override
+	public String getCellValue(int __rowIndex, int __columnIndex) {
+		XSSFRow _row = this.worksheet.getRow(__rowIndex);
+		XSSFCell _cell = _row.getCell(__columnIndex);
+		return _cell.getRawValue();
 	}
 }

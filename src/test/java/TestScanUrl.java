@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import logia.cophieu.controller.listener.GetDataListener;
+import logia.cophieu.model.GetUrlData;
 import logia.httpclient.HttpSendGet;
 import logia.httpclient.response.listener.HttpResponseListener;
 
@@ -16,7 +17,7 @@ public class TestScanUrl {
 		_parameters.put("stockname", "ree");
 		_parameters.put("search", "Tìm+Kiếm");
 
-		HttpResponseListener<?> _listener = new GetDataListener();
+		HttpResponseListener<GetUrlData> _listener = new GetDataListener();
 		HttpSendGet _get = new HttpSendGet(_requestURL, new HashMap<String, String>(0), _parameters, _listener);
 		_get.execute();
 	}
