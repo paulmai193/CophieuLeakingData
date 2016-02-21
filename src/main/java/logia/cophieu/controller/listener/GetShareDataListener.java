@@ -45,6 +45,13 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 
 	/**
 	 * Instantiates a new gets the share data listener.
+	 */
+	public GetShareDataListener() {
+		super();
+	}
+
+	/**
+	 * Instantiates a new gets the share data listener.
 	 *
 	 * @param __stock the __stock
 	 */
@@ -52,13 +59,6 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 		super();
 		this.data = new GetStockData();
 		this.stock = __stock;
-	}
-
-	/**
-	 * Instantiates a new gets the share data listener.
-	 */
-	public GetShareDataListener() {
-		super();
 	}
 
 	/**
@@ -86,10 +86,10 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 		}
 		_html = _html.replaceAll("/>\\s</", "><").replaceAll(">\\s</", "><").replaceAll("\t", "").replaceAll("\r\n", "");
 
-		List<String> _listElement = readRow(_html);
-		LOGGER.debug(Arrays.toString(_listElement.toArray()));
+		List<String> _listElement = this.readRow(_html);
+		GetShareDataListener.LOGGER.debug(Arrays.toString(_listElement.toArray()));
 
-		data.setMaCk(this.stock);
+		this.data.setMaCk(this.stock);
 		SortedMap<Date, Float> _coTuc = new TreeMap<Date, Float>(new Comparator<Date>() {
 
 			@Override
@@ -103,19 +103,37 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 			// Read date
 
 			try {
-				Date _ngay = df.parse(readDate(_element));
+				Date _ngay = df.parse(this.readDate(_element));
 
-				String _percentage = readShare(_element);
+				String _percentage = this.readShare(_element);
 				Float _share = 10000 * (Float.parseFloat(_percentage.replace("%", "")) / 100);
 
 				_coTuc.put(_ngay, _share);
 			}
 			catch (ParseException _e) {
-				LOGGER.warn(_e.getMessage(), _e);
+				GetShareDataListener.LOGGER.warn(_e.getMessage(), _e);
 			}
 		}
-		data.setCoTuc(_coTuc);
-		LOGGER.debug(data.getCoTuc());
+		this.data.setCoTuc(_coTuc);
+		GetShareDataListener.LOGGER.debug(this.data.getCoTuc());
+	}
+
+	/**
+	 * Read date.
+	 *
+	 * @param __webContent the __web content
+	 * @return the string
+	 */
+	private String readDate(String __webContent) {
+		Matcher _matcher = Pattern.compile("<td class=\"td_bottom3 td_bg1\" align=\"right\">(.*?)</td>").matcher(__webContent);
+		int _count = 0;
+		while (_matcher.find()) {
+			_count++;
+			if (_count == 2) {
+				return _matcher.group(1).trim();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -143,24 +161,6 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	}
 
 	/**
-	 * Read date.
-	 *
-	 * @param __webContent the __web content
-	 * @return the string
-	 */
-	private String readDate(String __webContent) {
-		Matcher _matcher = Pattern.compile("<td class=\"td_bottom3 td_bg1\" align=\"right\">(.*?)</td>").matcher(__webContent);
-		int _count = 0;
-		while (_matcher.find()) {
-			_count++;
-			if (_count == 2) {
-				return _matcher.group(1).trim();
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Read share.
 	 *
 	 * @param __webContent the __web content
@@ -168,7 +168,7 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	 */
 	private String readShare(String __webContent) {
 		Matcher _matcher = Pattern.compile("<td class=\"td_bottom3 td_bg2\" align=\"right\" style=\" font-weight:bold\">(.*?)</td>").matcher(
-		        __webContent);
+				__webContent);
 		while (_matcher.find()) {
 			return _matcher.group(1).trim();
 		}

@@ -11,17 +11,17 @@ import java.util.SortedMap;
  */
 public class GetStockData implements DataInterface {
 
-	/** The ma ck. */
-	private String                 maCk;
-
 	/** The co tuc. */
 	private SortedMap<Date, Float> coTuc;
 
-	/** The ten cty. */
-	private String                 tenCty;
-
 	/** The gia hien tai. */
 	private float                  giaHienTai;
+
+	/** The ma ck. */
+	private String                 maCk;
+
+	/** The ten cty. */
+	private String                 tenCty;
 
 	/**
 	 * Instantiates a new gets the stock data.
@@ -43,57 +43,12 @@ public class GetStockData implements DataInterface {
 	}
 
 	/**
-	 * Gets the ma ck.
-	 *
-	 * @return the maCk
-	 */
-	public String getMaCk() {
-		return this.maCk;
-	}
-
-	/**
-	 * Sets the ma ck.
-	 *
-	 * @param __maCk the maCk to set
-	 */
-	public void setMaCk(String __maCk) {
-		this.maCk = __maCk;
-	}
-
-	/**
 	 * Gets the co tuc.
 	 *
 	 * @return the coTuc
 	 */
 	public Map<Date, Float> getCoTuc() {
 		return this.coTuc;
-	}
-
-	/**
-	 * Sets the co tuc.
-	 *
-	 * @param __coTuc the coTuc to set
-	 */
-	public void setCoTuc(SortedMap<Date, Float> __coTuc) {
-		this.coTuc = __coTuc;
-	}
-
-	/**
-	 * Gets the ten cty.
-	 *
-	 * @return the tenCty
-	 */
-	public String getTenCty() {
-		return this.tenCty;
-	}
-
-	/**
-	 * Sets the ten cty.
-	 *
-	 * @param __tenCty the tenCty to set
-	 */
-	public void setTenCty(String __tenCty) {
-		this.tenCty = __tenCty;
 	}
 
 	/**
@@ -106,12 +61,57 @@ public class GetStockData implements DataInterface {
 	}
 
 	/**
+	 * Gets the ma ck.
+	 *
+	 * @return the maCk
+	 */
+	public String getMaCk() {
+		return this.maCk;
+	}
+
+	/**
+	 * Gets the ten cty.
+	 *
+	 * @return the tenCty
+	 */
+	public String getTenCty() {
+		return this.tenCty;
+	}
+
+	/**
+	 * Sets the co tuc.
+	 *
+	 * @param __coTuc the coTuc to set
+	 */
+	public void setCoTuc(SortedMap<Date, Float> __coTuc) {
+		this.coTuc = __coTuc;
+	}
+
+	/**
 	 * Sets the gia hien tai.
 	 *
 	 * @param __giaHienTai the giaHienTai to set
 	 */
 	public void setGiaHienTai(float __giaHienTai) {
 		this.giaHienTai = __giaHienTai;
+	}
+
+	/**
+	 * Sets the ma ck.
+	 *
+	 * @param __maCk the maCk to set
+	 */
+	public void setMaCk(String __maCk) {
+		this.maCk = __maCk;
+	}
+
+	/**
+	 * Sets the ten cty.
+	 *
+	 * @param __tenCty the tenCty to set
+	 */
+	public void setTenCty(String __tenCty) {
+		this.tenCty = __tenCty;
 	}
 
 }

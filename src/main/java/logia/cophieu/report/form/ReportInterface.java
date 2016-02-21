@@ -2,6 +2,8 @@ package logia.cophieu.report.form;
 
 import java.util.List;
 
+import javax.swing.JProgressBar;
+
 import logia.cophieu.model.DataInterface;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -18,8 +20,9 @@ public interface ReportInterface extends AutoCloseable {
 	 *
 	 * @param __datas the __datas
 	 * @param __sheet the __sheet
+	 * @param __progressBar the __progress bar
 	 */
-	public void createData(List<DataInterface> __datas, SheetInterface __sheet);
+	public void createData(List<DataInterface> __datas, SheetInterface __sheet, JProgressBar __progressBar);
 
 	/**
 	 * Export report.

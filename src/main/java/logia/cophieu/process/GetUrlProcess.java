@@ -78,7 +78,7 @@ public final class GetUrlProcess extends Thread {
 			}
 		}
 		catch (IOException _e) {
-			LOGGER.error(_e.getMessage(), _e);
+			GetUrlProcess.LOGGER.error(_e.getMessage(), _e);
 		}
 
 	}

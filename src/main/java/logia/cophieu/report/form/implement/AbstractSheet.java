@@ -128,6 +128,13 @@ public abstract class AbstractSheet implements SheetInterface {
 		return cell;
 	}
 
+	@Override
+	public String getCellValue(int __rowIndex, int __columnIndex) {
+		XSSFRow _row = this.worksheet.getRow(__rowIndex);
+		XSSFCell _cell = _row.getCell(__columnIndex);
+		return _cell.getRawValue();
+	}
+
 	/**
 	 * Gets the worksheet.
 	 *
@@ -136,12 +143,5 @@ public abstract class AbstractSheet implements SheetInterface {
 	@Override
 	public XSSFSheet getWorksheet() {
 		return this.worksheet;
-	}
-
-	@Override
-	public String getCellValue(int __rowIndex, int __columnIndex) {
-		XSSFRow _row = this.worksheet.getRow(__rowIndex);
-		XSSFCell _cell = _row.getCell(__columnIndex);
-		return _cell.getRawValue();
 	}
 }

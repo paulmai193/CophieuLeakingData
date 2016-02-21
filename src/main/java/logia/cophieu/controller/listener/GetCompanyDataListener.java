@@ -32,19 +32,19 @@ public class GetCompanyDataListener implements HttpResponseListener<GetStockData
 
 	/**
 	 * Instantiates a new gets the company data listener.
+	 */
+	public GetCompanyDataListener() {
+		super();
+	}
+
+	/**
+	 * Instantiates a new gets the company data listener.
 	 *
 	 * @param __data the __data
 	 */
 	public GetCompanyDataListener(GetStockData __data) {
 		super();
 		this.data = __data;
-	}
-
-	/**
-	 * Instantiates a new gets the company data listener.
-	 */
-	public GetCompanyDataListener() {
-		super();
 	}
 
 	/*
@@ -63,18 +63,32 @@ public class GetCompanyDataListener implements HttpResponseListener<GetStockData
 		}
 		_html = _html.replaceAll("/>\\s</", "><").replaceAll(">\\s</", "><").replaceAll("\t", "").replaceAll("\r\n", "");
 
-		String tenCty = getCompName(_html);
+		String tenCty = this.getCompName(_html);
 		float curPrice = 0;
-		String _strPrice = getCurrentPrice(_html);
+		String _strPrice = this.getCurrentPrice(_html);
 		try {
 			curPrice = Float.parseFloat(_strPrice);
 		}
 		catch (Exception __e) {
-			LOGGER.error("Error parse string " + _strPrice + " of stock " + this.data.getMaCk(), __e);
+			GetCompanyDataListener.LOGGER.error("Error parse string " + _strPrice + " of stock " + this.data.getMaCk(), __e);
 		}
 
 		this.data.setTenCty(tenCty);
 		this.data.setGiaHienTai(curPrice * 1000);
+	}
+
+	/**
+	 * Gets the comp name.
+	 *
+	 * @param __webContent the __web content
+	 * @return the comp name
+	 */
+	private String getCompName(String __webContent) {
+		Matcher _matcher = Pattern.compile("<h1>(.*?)</h1>").matcher(__webContent);
+		while (_matcher.find()) {
+			return _matcher.group(1).trim();
+		}
+		return null;
 	}
 
 	/**
@@ -101,20 +115,6 @@ public class GetCompanyDataListener implements HttpResponseListener<GetStockData
 			return _matcher.group(1).trim();
 		}
 		_matcher = Pattern.compile("<strong class=\"price_ceiling\" id=\"stockname_close\">(.*?)</strong>").matcher(__webContent);
-		while (_matcher.find()) {
-			return _matcher.group(1).trim();
-		}
-		return null;
-	}
-
-	/**
-	 * Gets the comp name.
-	 *
-	 * @param __webContent the __web content
-	 * @return the comp name
-	 */
-	private String getCompName(String __webContent) {
-		Matcher _matcher = Pattern.compile("<h1>(.*?)</h1>").matcher(__webContent);
 		while (_matcher.find()) {
 			return _matcher.group(1).trim();
 		}

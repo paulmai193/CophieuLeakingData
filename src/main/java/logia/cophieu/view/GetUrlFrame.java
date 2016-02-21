@@ -34,11 +34,14 @@ public class GetUrlFrame extends JFrame {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The _btn new button. */
+	private JButton           btnBrowseInput;
+
 	/** The _btn browse. */
 	private JButton           btnBrowseOutput;
 
-	/** The _btn new button. */
-	private JButton           btnBrowseInput;
+	/** The btn run. */
+	private JButton           btnRun;
 
 	/** The _content pane. */
 	private JPanel            contentPane;
@@ -70,9 +73,6 @@ public class GetUrlFrame extends JFrame {
 	/** The _txf output. */
 	private JTextField        txfOutput;
 
-	/** The btn run. */
-	private JButton           btnRun;
-
 	/**
 	 * Create the frame.
 	 */
@@ -95,7 +95,7 @@ public class GetUrlFrame extends JFrame {
 		this.contentPane.add(_lblExportZaraData, BorderLayout.NORTH);
 
 		this.spProgress = new JSplitPane();
-		spProgress.setResizeWeight(0.99);
+		this.spProgress.setResizeWeight(0.99);
 		this.spProgress.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		this.contentPane.add(this.spProgress, BorderLayout.SOUTH);
 
@@ -108,7 +108,7 @@ public class GetUrlFrame extends JFrame {
 		this.spProgress.setTopComponent(this.progressBar);
 
 		this.btnRun = new JButton("Run");
-		btnRun.addMouseListener(new MouseAdapter() {
+		this.btnRun.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent __event) {
@@ -117,7 +117,7 @@ public class GetUrlFrame extends JFrame {
 			}
 		});
 		this.btnRun.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		spProgress.setRightComponent(btnRun);
+		this.spProgress.setRightComponent(this.btnRun);
 
 		// this.contentPane.add(this.progressBar, BorderLayout.SOUTH);
 
@@ -140,7 +140,7 @@ public class GetUrlFrame extends JFrame {
 		this.contentPane.add(this.spComponent, BorderLayout.CENTER);
 
 		this.txfInput = new JTextField();
-		txfInput.setEditable(false);
+		this.txfInput.setEditable(false);
 		this.spComponent.setRightComponent(this.txfInput);
 
 		this.txfInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -148,7 +148,7 @@ public class GetUrlFrame extends JFrame {
 		this.txfInput.setColumns(10);
 
 		this.txfOutput = new JTextField(System.getProperty("user.dir") + File.separator + "output");
-		txfOutput.setEditable(false);
+		this.txfOutput.setEditable(false);
 		this.txfOutput.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		this.spComponent.setLeftComponent(this.txfOutput);
 		this.txfOutput.setColumns(10);
@@ -193,15 +193,6 @@ public class GetUrlFrame extends JFrame {
 	}
 
 	/**
-	 * Gets the btn browse output.
-	 *
-	 * @return the btnBrowseOutput
-	 */
-	public JButton getBtnBrowseOutput() {
-		return this.btnBrowseOutput;
-	}
-
-	/**
 	 * Gets the btn browse input.
 	 *
 	 * @return the btnBrowseInput
@@ -211,10 +202,29 @@ public class GetUrlFrame extends JFrame {
 	}
 
 	/**
+	 * Gets the btn browse output.
+	 *
+	 * @return the btnBrowseOutput
+	 */
+	public JButton getBtnBrowseOutput() {
+		return this.btnBrowseOutput;
+	}
+
+	/**
+	 * Gets the btn run.
+	 *
+	 * @return the btnRun
+	 */
+	public JButton getBtnRun() {
+		return this.btnRun;
+	}
+
+	/**
 	 * Gets the content pane.
 	 *
 	 * @return the contentPane
 	 */
+	@Override
 	public JPanel getContentPane() {
 		return this.contentPane;
 	}
@@ -298,15 +308,6 @@ public class GetUrlFrame extends JFrame {
 	 */
 	public JTextField getTxfOutput() {
 		return this.txfOutput;
-	}
-
-	/**
-	 * Gets the btn run.
-	 *
-	 * @return the btnRun
-	 */
-	public JButton getBtnRun() {
-		return this.btnRun;
 	}
 
 }

@@ -29,13 +29,13 @@ public final class GetUrlController {
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(GetUrlController.class);
 
+	private List<DataInterface> listDatas;
+
 	/** The _num process. */
 	private int                 numProcess;
-
 	private String              output;
 	private JProgressBar        progressBar;
 	private List<String>        stocks;
-	private List<DataInterface> listDatas;
 
 	public GetUrlController() {
 	}
@@ -58,11 +58,11 @@ public final class GetUrlController {
 	 */
 	public synchronized void scanUrl() {
 		try {
-			progressBar.setString("Scanning link, please do not turn off application!");
+			this.progressBar.setString("Scanning link, please do not turn off application!");
 
-			try (CophieuReport _report = new CophieuReport(output)) {
+			try (CophieuReport _report = new CophieuReport(this.output)) {
 
-				for (String _eachStock : stocks) {
+				for (String _eachStock : this.stocks) {
 					// Execute get share query
 					String url = "http://www.cophieu68.vn/events.php";
 					Map<String, String> _parameters = new HashMap<String, String>();
@@ -81,16 +81,17 @@ public final class GetUrlController {
 					_get = new HttpSendGet(url, new HashMap<String, String>(0), _parameters, _companyDataListener);
 					_get.execute();
 
-					listDatas.add(_shareDataListener.getData());
+					this.listDatas.add(_shareDataListener.getData());
 
 					this.numProcess++;
-					progressBar.setValue(this.numProcess);
+					this.progressBar.setValue(this.numProcess);
 
 					Thread.sleep(1000);
 				}
 
 				// Export report
-				_report.createData(this.listDatas, new CotucSheet(_report.getWorkbook(), "Cổ tức"));
+				this.progressBar.setString("Export report file, please do not turn off application!");
+				_report.createData(this.listDatas, new CotucSheet(_report.getWorkbook(), "Cổ tức"), this.progressBar);
 
 				_report.exportReport();
 
@@ -103,8 +104,8 @@ public final class GetUrlController {
 			GetUrlController.LOGGER.error("Error when reading data from url", _e);
 		}
 		finally {
-			progressBar.setString("Finish!");
-			progressBar.setValue(0);
+			this.progressBar.setString("Finish!");
+			this.progressBar.setValue(0);
 		}
 	}
 }
