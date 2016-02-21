@@ -51,12 +51,12 @@ public final class GetUrlProcess extends Thread {
 		this.frame.getBtnBrowseOutput().setEnabled(false);
 
 		// Run scan data from url
-		String _url = "http://www.cophieu68.vn/events.php";
-		List<String> stocks = new ArrayList<String>();
+		List<String> _stocks = new ArrayList<String>();
 		try {
-			stocks = FileUtils.readLines(new File(this.frame.getTxfInput().getText()));
+			_stocks = FileUtils.readLines(new File(this.frame.getTxfInput().getText()));
+			this.frame.getProgressBar().setMaximum(_stocks.size());
 
-			GetUrlController controller = new GetUrlController(_url, this.frame.getTxfOutput().getText(), this.frame.getProgressBar(), stocks);
+			GetUrlController controller = new GetUrlController(this.frame.getTxfOutput().getText(), this.frame.getProgressBar(), _stocks);
 			controller.scanUrl();
 
 			// Enable UI components

@@ -14,8 +14,7 @@ public class CophieuReport extends AbstractReport {
 
 	@Override
 	public void createData(List<DataInterface> __datas, SheetInterface __sheet) {
-		// TODO Auto-generated method stub
-
+		__sheet.createData(__datas);
 	}
 
 }

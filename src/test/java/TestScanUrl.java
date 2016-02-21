@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import logia.cophieu.controller.listener.GetDataListener;
-import logia.cophieu.model.GetUrlData;
+import logia.cophieu.controller.listener.GetShareDataListener;
+import logia.cophieu.model.GetStockData;
 import logia.httpclient.HttpSendGet;
 import logia.httpclient.response.listener.HttpResponseListener;
 
@@ -17,7 +17,7 @@ public class TestScanUrl {
 		_parameters.put("stockname", "ree");
 		_parameters.put("search", "Tìm+Kiếm");
 
-		HttpResponseListener<GetUrlData> _listener = new GetDataListener();
+		HttpResponseListener<GetStockData> _listener = new GetShareDataListener();
 		HttpSendGet _get = new HttpSendGet(_requestURL, new HashMap<String, String>(0), _parameters, _listener);
 		_get.execute();
 	}

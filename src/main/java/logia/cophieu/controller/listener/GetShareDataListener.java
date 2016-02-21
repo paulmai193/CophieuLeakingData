@@ -16,7 +16,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import logia.cophieu.model.GetUrlData;
+import logia.cophieu.model.GetStockData;
 import logia.httpclient.HttpUtility;
 import logia.httpclient.response.listener.HttpResponseListener;
 
@@ -24,27 +24,49 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 /**
- * The listener interface for receiving getData events. The class that is interested in processing a getData event implements this interface, and the
- * object created with that class is registered with a component using the component's <code>addGetDataListener<code> method. When
- * the getData event occurs, that object's appropriate
+ * The listener interface for receiving getShareData events. The class that is interested in processing a getShareData event implements this
+ * interface, and the object created with that class is registered with a component using the component's
+ * <code>addGetShareDataListener<code> method. When
+ * the getShareData event occurs, that object's appropriate
  * method is invoked.
  *
- * @see GetDataEvent
+ * @see GetShareDataEvent
  */
-public class GetDataListener implements HttpResponseListener<GetUrlData> {
+public class GetShareDataListener implements HttpResponseListener<GetStockData> {
 
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(GetDataListener.class);
+	private static final Logger LOGGER = Logger.getLogger(GetShareDataListener.class);
 
 	/** The data. */
-	private GetUrlData          data;
+	private GetStockData        data;
+
+	/** The stock. */
+	private String              stock;
+
+	/**
+	 * Instantiates a new gets the share data listener.
+	 *
+	 * @param __stock the __stock
+	 */
+	public GetShareDataListener(String __stock) {
+		super();
+		this.data = new GetStockData();
+		this.stock = __stock;
+	}
+
+	/**
+	 * Instantiates a new gets the share data listener.
+	 */
+	public GetShareDataListener() {
+		super();
+	}
 
 	/**
 	 * Gets the data.
 	 *
 	 * @return the data
 	 */
-	public GetUrlData getData() {
+	public GetStockData getData() {
 		return this.data;
 	}
 
@@ -64,12 +86,10 @@ public class GetDataListener implements HttpResponseListener<GetUrlData> {
 		}
 		_html = _html.replaceAll("/>\\s</", "><").replaceAll(">\\s</", "><").replaceAll("\t", "").replaceAll("\r\n", "");
 
-		// TODO
 		List<String> _listElement = readRow(_html);
 		LOGGER.debug(Arrays.toString(_listElement.toArray()));
 
-		GetUrlData _data = new GetUrlData();
-		_data.setMaCk("REE");
+		data.setMaCk(this.stock);
 		SortedMap<Date, Float> _coTuc = new TreeMap<Date, Float>(new Comparator<Date>() {
 
 			@Override
@@ -94,8 +114,8 @@ public class GetDataListener implements HttpResponseListener<GetUrlData> {
 				LOGGER.warn(_e.getMessage(), _e);
 			}
 		}
-		_data.setCoTuc(_coTuc);
-		LOGGER.debug(_data.getCoTuc());
+		data.setCoTuc(_coTuc);
+		LOGGER.debug(data.getCoTuc());
 	}
 
 	/**

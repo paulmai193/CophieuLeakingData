@@ -1,15 +1,18 @@
 package logia.cophieu.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JProgressBar;
 
-import logia.cophieu.controller.listener.GetDataListener;
-import logia.cophieu.model.GetUrlData;
+import logia.cophieu.controller.listener.GetCompanyDataListener;
+import logia.cophieu.controller.listener.GetShareDataListener;
+import logia.cophieu.model.DataInterface;
+import logia.cophieu.report.form.implement.CophieuReport;
+import logia.cophieu.report.form.implement.CotucSheet;
 import logia.httpclient.HttpSendGet;
-import logia.httpclient.response.listener.HttpResponseListener;
 
 import org.apache.log4j.Logger;
 
@@ -29,21 +32,21 @@ public final class GetUrlController {
 	/** The _num process. */
 	private int                 numProcess;
 
-	private String              url;
 	private String              output;
 	private JProgressBar        progressBar;
 	private List<String>        stocks;
+	private List<DataInterface> listDatas;
 
 	public GetUrlController() {
 	}
 
-	public GetUrlController(String __url, String __output, JProgressBar __progressBar, List<String> __stocks) {
+	public GetUrlController(String __output, JProgressBar __progressBar, List<String> __stocks) {
 		super();
 		this.numProcess = 0;
-		this.url = __url;
 		this.output = __output;
 		this.progressBar = __progressBar;
 		this.stocks = __stocks;
+		this.listDatas = new ArrayList<DataInterface>();
 	}
 
 	/**
@@ -57,24 +60,40 @@ public final class GetUrlController {
 		try {
 			progressBar.setString("Scanning link, please do not turn off application!");
 
-			try {
-				Map<String, String> _parameters = new HashMap<String, String>();
-				_parameters.put("event_type", "1");
-				_parameters.put("search", "Tìm+Kiếm");
+			try (CophieuReport _report = new CophieuReport(output)) {
 
 				for (String _eachStock : stocks) {
+					// Execute get share query
+					String url = "http://www.cophieu68.vn/events.php";
+					Map<String, String> _parameters = new HashMap<String, String>();
+					_parameters.put("event_type", "1");
+					_parameters.put("search", "Tìm+Kiếm");
 					_parameters.put("stockname", _eachStock);
-
-					// Execute query
-					HttpResponseListener<GetUrlData> _listener = new GetDataListener();
-					HttpSendGet _get = new HttpSendGet(url, new HashMap<String, String>(0), _parameters, _listener);
+					GetShareDataListener _shareDataListener = new GetShareDataListener(_eachStock);
+					HttpSendGet _get = new HttpSendGet(url, new HashMap<String, String>(0), _parameters, _shareDataListener);
 					_get.execute();
+
+					// Execute get company information query
+					url = "http://www.cophieu68.vn/snapshot.php";
+					_parameters.clear();
+					_parameters.put("id", _eachStock);
+					GetCompanyDataListener _companyDataListener = new GetCompanyDataListener(_shareDataListener.getData());
+					_get = new HttpSendGet(url, new HashMap<String, String>(0), _parameters, _companyDataListener);
+					_get.execute();
+
+					listDatas.add(_shareDataListener.getData());
 
 					this.numProcess++;
 					progressBar.setValue(this.numProcess);
 
-					Thread.sleep(5000);
+					Thread.sleep(1000);
 				}
+
+				// Export report
+				_report.createData(this.listDatas, new CotucSheet(_report.getWorkbook(), "Cổ tức"));
+
+				_report.exportReport();
+
 			}
 			catch (Exception _e) {
 				throw _e;
@@ -88,5 +107,4 @@ public final class GetUrlController {
 			progressBar.setValue(0);
 		}
 	}
-
 }

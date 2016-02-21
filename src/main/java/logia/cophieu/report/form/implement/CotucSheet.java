@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import logia.cophieu.model.DataInterface;
-import logia.cophieu.model.GetUrlData;
+import logia.cophieu.model.GetStockData;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -17,9 +17,9 @@ public class CotucSheet extends AbstractSheet {
 	private static final Map<Integer, Integer> YEAR_MAP = new HashMap<Integer, Integer>(); // {year, column}
 	static {
 		int _currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		for (int _columnIndex = 5; _columnIndex <= _columnIndex + 10; _columnIndex++) {
+		for (int _columnIndex = 15; _columnIndex >= 5; _columnIndex--) {
 			YEAR_MAP.put(_currentYear, _columnIndex);
-			_currentYear++;
+			_currentYear--;
 		}
 	}
 
@@ -31,8 +31,9 @@ public class CotucSheet extends AbstractSheet {
 	public void createData(List<DataInterface> __listData) {
 		int _rowIndex = 1;
 		for (DataInterface _data : __listData) {
-			if (_data instanceof GetUrlData) {
-				processShareData((GetUrlData) _data, _rowIndex);
+			if (_data instanceof GetStockData) {
+				processShareData((GetStockData) _data, _rowIndex);
+				_rowIndex++;
 			}
 			else {
 
@@ -41,7 +42,7 @@ public class CotucSheet extends AbstractSheet {
 
 	}
 
-	private void processShareData(GetUrlData __data, int __rowIndex) {
+	private void processShareData(GetStockData __data, int __rowIndex) {
 		// STT
 		this.createCell(__rowIndex, 0, __rowIndex, false, AbstractSheet.ALIGN_CENTER, false, false);
 
@@ -65,18 +66,22 @@ public class CotucSheet extends AbstractSheet {
 			}
 
 			// Put into report
-			int _columnIndex = YEAR_MAP.get(_year);
-			this.createCell(__rowIndex, _columnIndex, _totalShare, false, ALIGN_RIGHT, false, false);
+			try {
+				int _columnIndex = YEAR_MAP.get(_year);
+				this.createCell(0, _columnIndex, _year, true, ALIGN_CENTER, false, false);
+				this.createCell(__rowIndex, _columnIndex, _totalShare, false, ALIGN_RIGHT, false, false);
+				this.createCell(__rowIndex, 2, __data.getTenCty(), false, ALIGN_LEFT, false, false);
+				this.createCell(__rowIndex, 3, __data.getGiaHienTai(), false, ALIGN_RIGHT, false, false);
+			}
+			catch (Exception __e) {
+				LOGGER.error("Error data of year " + _year, __e);
+			}
+
 		}
 	}
 
 	@Override
 	public void createData(DataInterface __data) {
-		if (__data instanceof GetUrlData) {
-		}
-		else {
-
-		}
 
 	}
 

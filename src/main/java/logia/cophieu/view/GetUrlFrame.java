@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -21,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import logia.cophieu.controller.GetUrlController;
 import logia.cophieu.process.GetUrlProcess;
 
 /**
@@ -104,13 +101,21 @@ public class GetUrlFrame extends JFrame {
 
 		this.progressBar = new JProgressBar();
 		this.progressBar.setMinimum(0);
-		this.progressBar.setMaximum(GetUrlController.MAX);
+		// this.progressBar.setMaximum(GetUrlController.MAX);
 		this.progressBar.setValue(0);
 		this.progressBar.setStringPainted(true);
 		this.progressBar.setString("");
 		this.spProgress.setTopComponent(this.progressBar);
 
 		this.btnRun = new JButton("Run");
+		btnRun.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent __event) {
+				GetUrlProcess _process = new GetUrlProcess(GetUrlFrame.this);
+				_process.start();
+			}
+		});
 		this.btnRun.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		spProgress.setRightComponent(btnRun);
 
@@ -137,16 +142,7 @@ public class GetUrlFrame extends JFrame {
 		this.txfInput = new JTextField();
 		txfInput.setEditable(false);
 		this.spComponent.setRightComponent(this.txfInput);
-		this.txfInput.addKeyListener(new KeyAdapter() {
 
-			@Override
-			public void keyPressed(final KeyEvent __event) {
-				if (__event.getKeyCode() == KeyEvent.VK_ENTER) {
-					GetUrlProcess _process = new GetUrlProcess(GetUrlFrame.this);
-					_process.start();
-				}
-			}
-		});
 		this.txfInput.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		this.txfInput.setToolTipText("Type or copy Zara's product link here");
 		this.txfInput.setColumns(10);
@@ -185,8 +181,13 @@ public class GetUrlFrame extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent __event) {
-				GetUrlProcess _process = new GetUrlProcess(GetUrlFrame.this);
-				_process.start();
+				JFileChooser _chooseInputDirectory = new JFileChooser(GetUrlFrame.this.txfInput.getText());
+				_chooseInputDirectory.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				int _returnVal = _chooseInputDirectory.showOpenDialog(null);
+				if (_returnVal == JFileChooser.APPROVE_OPTION) {
+					File _file = _chooseInputDirectory.getSelectedFile();
+					GetUrlFrame.this.txfInput.setText(_file.getAbsolutePath());
+				}
 			}
 		});
 	}
