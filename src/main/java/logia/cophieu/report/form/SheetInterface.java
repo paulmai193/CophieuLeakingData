@@ -19,13 +19,13 @@ public interface SheetInterface {
 	/**
 	 * Creates the cell.
 	 *
-	 * @param rowIndex the row index
-	 * @param columnIndex the column index
-	 * @param content the content. Content is instance of Boolean, Calenda, Date, Double, RichTextString, String
-	 * @param isBold the is bold
-	 * @param align the align
-	 * @param haveBorder the have border
-	 * @param wrapText the wrap text
+	 * @param __rowIndex the __row index
+	 * @param __columnIndex the __column index
+	 * @param __content the __content
+	 * @param __isBold the __is bold
+	 * @param __align the __align
+	 * @param __haveBorder the __have border
+	 * @param __wrapText the __wrap text
 	 * @return the XSSF cell
 	 */
 	public XSSFCell createCell(int __rowIndex, int __columnIndex, Object __content, boolean __isBold, byte __align, boolean __haveBorder,
@@ -41,7 +41,8 @@ public interface SheetInterface {
 	/**
 	 * Creates the data.
 	 *
-	 * @param listData the list data
+	 * @param __listData the __list data
+	 * @param __progressBar the __progress bar
 	 */
 	public void createData(List<DataInterface> __listData, JProgressBar __progressBar);
 

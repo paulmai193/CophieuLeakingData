@@ -128,6 +128,9 @@ public abstract class AbstractSheet implements SheetInterface {
 		return cell;
 	}
 
+	/* (non-Javadoc)
+	 * @see logia.cophieu.report.form.SheetInterface#getCellValue(int, int)
+	 */
 	@Override
 	public String getCellValue(int __rowIndex, int __columnIndex) {
 		XSSFRow _row = this.worksheet.getRow(__rowIndex);

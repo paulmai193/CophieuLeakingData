@@ -29,17 +29,34 @@ public final class GetUrlController {
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(GetUrlController.class);
 
+	/** The list datas. */
 	private List<DataInterface> listDatas;
 
 	/** The _num process. */
 	private int                 numProcess;
+	
+	/** The output. */
 	private String              output;
+	
+	/** The progress bar. */
 	private JProgressBar        progressBar;
+	
+	/** The stocks. */
 	private List<String>        stocks;
 
+	/**
+	 * Instantiates a new gets the url controller.
+	 */
 	public GetUrlController() {
 	}
 
+	/**
+	 * Instantiates a new gets the url controller.
+	 *
+	 * @param __output the __output
+	 * @param __progressBar the __progress bar
+	 * @param __stocks the __stocks
+	 */
 	public GetUrlController(String __output, JProgressBar __progressBar, List<String> __stocks) {
 		super();
 		this.numProcess = 0;
@@ -51,10 +68,6 @@ public final class GetUrlController {
 
 	/**
 	 * Scan url.
-	 *
-	 * @param __url the url
-	 * @param __output the output file or folder
-	 * @param __progressBar the progress bar
 	 */
 	public synchronized void scanUrl() {
 		try {

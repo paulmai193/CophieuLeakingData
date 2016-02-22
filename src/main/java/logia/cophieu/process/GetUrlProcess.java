@@ -64,6 +64,7 @@ public final class GetUrlProcess extends Thread {
 			this.frame.getBtnRun().setEnabled(true);
 			this.frame.getBtnBrowseInput().setEnabled(true);
 			this.frame.getTxfOutput().setEnabled(true);
+			this.frame.getBtnBrowseOutput().setEnabled(true);
 
 			JFileChooser chooseOutputDirectory = new JFileChooser(this.frame.getTxfOutput().getText());
 			chooseOutputDirectory.setFileSelectionMode(JFileChooser.FILES_ONLY);
