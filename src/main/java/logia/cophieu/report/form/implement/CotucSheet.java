@@ -64,7 +64,6 @@ public class CotucSheet extends AbstractSheet {
 		this.createCell(__rowIndex, 1, __data.getMaCk(), false, AbstractSheet.ALIGN_CENTER, false, false);
 
 		// Process share of each year
-
 		Map<Date, Float> _shareMap = __data.getCoTuc();
 		Calendar _calendar = Calendar.getInstance();
 		int _year = 0;
