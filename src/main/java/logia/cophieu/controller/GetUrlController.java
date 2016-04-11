@@ -158,9 +158,10 @@ public final class GetUrlController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws UnsupportedOperationException the unsupported operation exception
 	 * @throws TimeoutException the timeout exception
+	 * @throws InterruptedException the interrupted exception
 	 */
 	public static void scanData(List<String> __stocks) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, IOException,
-	        UnsupportedOperationException, TimeoutException {
+	        UnsupportedOperationException, TimeoutException, InterruptedException {
 		String _url = "http://www.cophieu68.vn/events.php";
 		Map<String, String> _parameters = new HashMap<String, String>();
 		_parameters.put("event_type", "1");
@@ -179,6 +180,8 @@ public final class GetUrlController {
 
 				System.out.println(_eachStock);
 			}
+
+			Thread.sleep(5000);
 		}
 
 		Session _session = HibernateUtil.beginTransaction();
@@ -210,9 +213,10 @@ public final class GetUrlController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws UnsupportedOperationException the unsupported operation exception
 	 * @throws TimeoutException the timeout exception
+	 * @throws InterruptedException the interrupted exception
 	 */
 	public static void initData(List<String> __stocks) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, IOException,
-	        UnsupportedOperationException, TimeoutException {
+	        UnsupportedOperationException, TimeoutException, InterruptedException {
 		String _url = "http://www.cophieu68.vn/snapshot.php";
 		Map<String, String> _parameters = new HashMap<String, String>(1);
 		List<DatabaseStockInfo> _listInfoData = new ArrayList<DatabaseStockInfo>();
@@ -226,6 +230,8 @@ public final class GetUrlController {
 			_listInfoData.add(_companyDataListener.getData());
 
 			System.out.println(_eachStock);
+
+			Thread.sleep(5000);
 		}
 
 		Session _session = HibernateUtil.beginTransaction();
