@@ -1,9 +1,12 @@
 package logia.cophieu.application;
 
-import java.awt.EventQueue;
+import java.io.File;
+import java.util.List;
 
-import logia.cophieu.view.GetUrlFrame;
+import logia.cophieu.controller.GetUrlController;
+import logia.hibernate.util.HibernateUtil;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -17,13 +20,13 @@ public final class Application {
 	private static final Logger LOGGER = Logger.getLogger(Application.class);
 
 	/** The _frame. */
-	private GetUrlFrame         _frame;
+	// private GetUrlFrame _frame;
 
 	/**
 	 * Create the application.
 	 */
 	public Application() {
-		this.initialize();
+		// this.initialize();
 	}
 
 	/**
@@ -32,26 +35,48 @@ public final class Application {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		// EventQueue.invokeLater(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// try {
+		// Application window = new Application();
+		// window._frame.setVisible(true);
+		// }
+		// catch (Exception e) {
+		// Application.LOGGER.error("Error when running application", e);
+		// }
+		// }
+		// });
 
-			@Override
-			public void run() {
-				try {
-					Application window = new Application();
-					window._frame.setVisible(true);
-				}
-				catch (Exception e) {
-					Application.LOGGER.error("Error when running application", e);
-				}
+		HibernateUtil.setConfigPath("hibernate.cfg.xml");
+		try {
+			if (args[0].equalsIgnoreCase("scandata")) {
+				List<String> _stocks = FileUtils.readLines(new File(args[1]));
+				GetUrlController.scanData(_stocks);
 			}
-		});
+			else if (args[0].equalsIgnoreCase("exportdata")) {
+				GetUrlController.exportData();
+			}
+			else if (args[0].equalsIgnoreCase("initdata")) {
+				List<String> _stocks = FileUtils.readLines(new File(args[1]));
+				GetUrlController.initData(_stocks);
+			}
+		}
+		catch (Exception _ex) {
+			_ex.printStackTrace();
+		}
+		finally {
+			HibernateUtil.releaseFactory();
+		}
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-		this._frame = new GetUrlFrame();
-	}
+	// private void initialize() {
+	// this._frame = new GetUrlFrame();
+	// }
 
 }

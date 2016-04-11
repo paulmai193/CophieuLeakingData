@@ -8,15 +8,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import logia.cophieu.model.GetStockData;
+import logia.cophieu.model.database.DatabaseShareData;
+import logia.cophieu.model.database.DatabaseStockInfo;
 import logia.httpclient.HttpUtility;
 import logia.httpclient.response.listener.HttpResponseListener;
 
@@ -35,13 +41,20 @@ import org.apache.log4j.Logger;
 public class GetShareDataListener implements HttpResponseListener<GetStockData> {
 
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(GetShareDataListener.class);
+	private static final Logger     LOGGER = Logger.getLogger(GetShareDataListener.class);
 
 	/** The data. */
-	private GetStockData        data;
+	// private GetStockData data;
+
+	/** The share data. */
+	// private DatabaseShareData shareData;
+
+	private List<DatabaseShareData> listShareData;
+
+	private DatabaseStockInfo       stockInfo;
 
 	/** The stock. */
-	private String              stock;
+	// private String stock;
 
 	/**
 	 * Instantiates a new gets the share data listener.
@@ -50,25 +63,31 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 		super();
 	}
 
+	public GetShareDataListener(DatabaseStockInfo __stockInfo) {
+		super();
+		this.stockInfo = __stockInfo;
+		this.listShareData = new ArrayList<DatabaseShareData>();
+	}
+
 	/**
 	 * Instantiates a new gets the share data listener.
 	 *
 	 * @param __stock the __stock
 	 */
-	public GetShareDataListener(String __stock) {
-		super();
-		this.data = new GetStockData();
-		this.stock = __stock;
-	}
+	// public GetShareDataListener(String __stock) {
+	// super();
+	// // this.data = new GetStockData();
+	// this.stock = __stock;
+	// }
 
 	/**
 	 * Gets the data.
 	 *
 	 * @return the data
 	 */
-	public GetStockData getData() {
-		return this.data;
-	}
+	// public GetStockData getData() {
+	// return this.data;
+	// }
 
 	/*
 	 * (non-Javadoc)
@@ -89,7 +108,7 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 		List<String> _listElement = this.readRow(_html);
 		GetShareDataListener.LOGGER.debug(Arrays.toString(_listElement.toArray()));
 
-		this.data.setMaCk(this.stock);
+		// this.data.setMaCk(this.stock);
 		SortedMap<Date, Float> _coTuc = new TreeMap<Date, Float>(new Comparator<Date>() {
 
 			@Override
@@ -98,12 +117,12 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 			}
 
 		});
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat _df = new SimpleDateFormat("dd/MM/yyyy");
 		for (String _element : _listElement) {
 			// Read date
 
 			try {
-				Date _ngay = df.parse(this.readDate(_element));
+				Date _ngay = _df.parse(this.readDate(_element));
 
 				String _percentage = this.readShare(_element);
 				Float _share = 10000 * (Float.parseFloat(_percentage.replace("%", "")) / 100);
@@ -114,8 +133,36 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 				GetShareDataListener.LOGGER.warn(_e.getMessage(), _e);
 			}
 		}
-		this.data.setCoTuc(_coTuc);
-		GetShareDataListener.LOGGER.debug(this.data.getCoTuc());
+		// this.data.setCoTuc(_coTuc);
+		// GetShareDataListener.LOGGER.debug(this.data.getCoTuc());
+
+		// Process share of each year
+		Map<Integer, Float> _shareMap = new HashMap<Integer, Float>();
+
+		Calendar _calendar = Calendar.getInstance();
+		// int _year = 0;
+		// float _totalShare = 0;
+		for (Entry<Date, Float> _eachShare : _coTuc.entrySet()) {
+			_calendar.setTime(_eachShare.getKey());
+			if (_eachShare.getValue() != null) {
+				if (_shareMap.containsKey(_calendar.get(Calendar.YEAR))) {
+					// _totalShare = _shareMap.get(_year) + _eachShare.getValue();
+					// _totalShare += _eachShare.getValue();
+					_shareMap.put(_calendar.get(Calendar.YEAR), _shareMap.get(_calendar.get(Calendar.YEAR)) + _eachShare.getValue());
+				}
+				else {
+					// _year = _calendar.get(Calendar.YEAR);
+					// _totalShare = _eachShare.getValue();
+					_shareMap.put(_calendar.get(Calendar.YEAR), _eachShare.getValue());
+				}
+			}
+		}
+
+		for (Entry<Integer, Float> _eachShare : _shareMap.entrySet()) {
+			DatabaseShareData _data = new DatabaseShareData(stockInfo, _eachShare.getKey(), _eachShare.getValue());
+			this.listShareData.add(_data);
+		}
+
 	}
 
 	/**
@@ -134,6 +181,19 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Gets the list share data.
+	 *
+	 * @return the shareData
+	 */
+	// public DatabaseShareData getShareData() {
+	// return this.shareData;
+	// }
+
+	public List<DatabaseShareData> getListShareData() {
+		return this.listShareData;
 	}
 
 	/**
@@ -168,7 +228,7 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	 */
 	private String readShare(String __webContent) {
 		Matcher _matcher = Pattern.compile("<td class=\"td_bottom3 td_bg2\" align=\"right\" style=\" font-weight:bold\">(.*?)</td>").matcher(
-				__webContent);
+		        __webContent);
 		while (_matcher.find()) {
 			return _matcher.group(1).trim();
 		}

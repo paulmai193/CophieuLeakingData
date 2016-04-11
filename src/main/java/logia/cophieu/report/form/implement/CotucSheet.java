@@ -25,7 +25,7 @@ public class CotucSheet extends AbstractSheet {
 	private static final Map<Integer, Integer> YEAR_MAP = new HashMap<Integer, Integer>(); // {year, column}
 	static {
 		int _currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		for (int _columnIndex = 15; _columnIndex >= 5; _columnIndex--) {
+		for (int _columnIndex = 16; _columnIndex >= 5; _columnIndex--) {
 			CotucSheet.YEAR_MAP.put(_currentYear, _columnIndex);
 			_currentYear--;
 		}
@@ -63,6 +63,7 @@ public class CotucSheet extends AbstractSheet {
 			if (_data instanceof GetStockData) {
 				this.processShareData((GetStockData) _data, _rowIndex);
 				_rowIndex++;
+				__progressBar.setString("Export report file " + (_rowIndex * 100 / __listData.size()) + "%");
 				__progressBar.setValue(_rowIndex);
 			}
 		}
@@ -97,8 +98,9 @@ public class CotucSheet extends AbstractSheet {
 		this.createCell(__rowIndex, 1, __data.getMaCk(), false, AbstractSheet.ALIGN_CENTER, false, false);
 
 		// Default 0 for share value
-		for (Integer _columnIndex : YEAR_MAP.values()) {
-			this.createCell(__rowIndex, _columnIndex, 0, false, ALIGN_RIGHT, false, false);
+		for (Entry<Integer, Integer> _eachItem : YEAR_MAP.entrySet()) {
+			this.createCell(0, _eachItem.getValue(), _eachItem.getKey(), true, ALIGN_CENTER, false, false);
+			this.createCell(__rowIndex, _eachItem.getValue(), 0, false, ALIGN_RIGHT, false, false);
 		}
 
 		// Process share of each year

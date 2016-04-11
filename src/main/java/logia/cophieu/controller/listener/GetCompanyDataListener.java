@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import logia.cophieu.model.GetStockData;
+import logia.cophieu.model.database.DatabaseStockInfo;
 import logia.httpclient.HttpUtility;
 import logia.httpclient.response.listener.HttpResponseListener;
 
@@ -28,23 +29,36 @@ public class GetCompanyDataListener implements HttpResponseListener<GetStockData
 	private static final Logger LOGGER = Logger.getLogger(GetCompanyDataListener.class);
 
 	/** The data. */
-	private GetStockData        data;
+	// private GetStockData data;
+
+	private DatabaseStockInfo   data;
 
 	/**
 	 * Instantiates a new gets the company data listener.
 	 */
 	public GetCompanyDataListener() {
 		super();
+		this.data = new DatabaseStockInfo();
 	}
 
 	/**
 	 * Instantiates a new gets the company data listener.
 	 *
-	 * @param __data the __data
+	 * @param __maCoPhieu the __ma co phieu
 	 */
-	public GetCompanyDataListener(GetStockData __data) {
+	public GetCompanyDataListener(String __maCoPhieu) {
 		super();
-		this.data = __data;
+		this.data = new DatabaseStockInfo();
+		this.data.setMaCoPhieu(__maCoPhieu);
+	}
+
+	/**
+	 * Gets the data.
+	 *
+	 * @return the data
+	 */
+	public DatabaseStockInfo getData() {
+		return this.data;
 	}
 
 	/*
@@ -63,18 +77,19 @@ public class GetCompanyDataListener implements HttpResponseListener<GetStockData
 		}
 		_html = _html.replaceAll("/>\\s</", "><").replaceAll(">\\s</", "><").replaceAll("\t", "").replaceAll("\r\n", "");
 
-		String tenCty = this.getCompName(_html);
-		float curPrice = 0;
+		String _tenCty = this.getCompName(_html);
+		float _curPrice = 0;
 		String _strPrice = this.getCurrentPrice(_html);
 		try {
-			curPrice = Float.parseFloat(_strPrice);
+			_curPrice = Float.parseFloat(_strPrice);
 		}
 		catch (Exception __e) {
-			GetCompanyDataListener.LOGGER.error("Error parse string " + _strPrice + " of stock " + this.data.getMaCk(), __e);
+			GetCompanyDataListener.LOGGER.error("Error parse string " + _strPrice + " of stock " + this.data.getMaCoPhieu(), __e);
 		}
 
-		this.data.setTenCty(tenCty);
-		this.data.setGiaHienTai(curPrice * 1000);
+		this.data.setTenCongTy(_tenCty);
+		this.data.setGiaHienTai(_curPrice * 1000);
+
 	}
 
 	/**

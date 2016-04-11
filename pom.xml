@@ -64,12 +64,17 @@
 		<dependency>
 			<groupId>logia</groupId>
 			<artifactId>logia-httpclient</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.1</version>
 		</dependency>		
 		<dependency>
 			<groupId>logia</groupId>
 			<artifactId>logia-utility</artifactId>
 			<version>0.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>logia</groupId>
+			<artifactId>logia-hibernate-impl</artifactId>
+			<version>0.0.5</version>
 		</dependency>
 		<!-- end LOGIA implement -->
 		<dependency>
@@ -101,5 +106,12 @@
 			<version>3.13</version>
 		</dependency>
 		<!-- end XML -->
+		<!-- Apache commons lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		<!-- end Apache commons lang3 -->
 	</dependencies>
 </project>
