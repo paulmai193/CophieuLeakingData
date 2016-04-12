@@ -27,7 +27,7 @@ public class DatabaseStockInfo {
 	private Long                   id;
 
 	/** The ma. */
-	@Column(length = 4, name = "ma_co_phieu", unique = true, nullable = false)
+	@Column(length = 10, name = "ma_co_phieu", unique = true, nullable = false)
 	private String                 maCoPhieu;
 
 	@Column(length = 1000, name = "ten_cong_ty", nullable = false)

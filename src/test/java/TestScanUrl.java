@@ -1,4 +1,7 @@
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
@@ -22,8 +25,12 @@ public class TestScanUrl {
 	 * @throws UnsupportedOperationException the unsupported operation exception
 	 * @throws TimeoutException the timeout exception
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws KeyStoreException the key store exception
 	 */
-	public static void main(String[] args) throws UnsupportedOperationException, TimeoutException, IOException {
+	public static void main(String[] args) throws UnsupportedOperationException, TimeoutException, IOException, KeyManagementException,
+	        NoSuchAlgorithmException, KeyStoreException {
 		String _requestURL = "http://www.cophieu68.vn/events.php";
 		Map<String, String> _parameters = new HashMap<String, String>();
 		_parameters.put("event_type", "1");

@@ -53,6 +53,17 @@ public final class Application {
 		try {
 			if (args[0].equalsIgnoreCase("scandata")) {
 				List<String> _stocks = FileUtils.readLines(new File(args[1]));
+				if (args.length >= 3) {
+					Integer _begin = Integer.parseInt(args[2]);
+					Integer _end;
+					if (args.length == 4) {
+						_end = Integer.parseInt(args[3]);
+					}
+					else {
+						_end = _stocks.size();
+					}
+					_stocks = _stocks.subList(_begin, _end);
+				}
 				GetUrlController.scanData(_stocks);
 			}
 			else if (args[0].equalsIgnoreCase("exportdata")) {
@@ -60,6 +71,17 @@ public final class Application {
 			}
 			else if (args[0].equalsIgnoreCase("initdata")) {
 				List<String> _stocks = FileUtils.readLines(new File(args[1]));
+				if (args.length >= 3) {
+					Integer _begin = Integer.parseInt(args[2]);
+					Integer _end;
+					if (args.length == 4) {
+						_end = Integer.parseInt(args[3]);
+					}
+					else {
+						_end = _stocks.size();
+					}
+					_stocks = _stocks.subList(_begin, _end);
+				}
 				GetUrlController.initData(_stocks);
 			}
 		}

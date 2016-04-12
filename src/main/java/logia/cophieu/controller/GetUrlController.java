@@ -176,7 +176,24 @@ public final class GetUrlController {
 				HttpSendGet _get = new HttpSendGet(_url, new HashMap<String, String>(0), _parameters, _shareDataListener);
 				_get.execute();
 
-				_listData.addAll(_shareDataListener.getListShareData());
+				if (_listData.size() >= 10) {
+					Session _session = HibernateUtil.beginTransaction();
+					try {
+						new ShareDataDAO().saveOrUpdate(_session, _listData);
+						HibernateUtil.commitTransaction(_session);
+					}
+					catch (HibernateException _ex) {
+						HibernateUtil.rollbackTransaction(_session);
+						throw _ex;
+					}
+					finally {
+						HibernateUtil.closeSession(_session);
+						_listData.clear();
+					}
+				}
+				else {
+					_listData.addAll(_shareDataListener.getListShareData());
+				}
 
 				System.out.println(_eachStock);
 			}
@@ -184,18 +201,6 @@ public final class GetUrlController {
 			Thread.sleep(5000);
 		}
 
-		Session _session = HibernateUtil.beginTransaction();
-		try {
-			new ShareDataDAO().saveOrUpdate(_session, _listData);
-			HibernateUtil.commitTransaction(_session);
-		}
-		catch (HibernateException _ex) {
-			HibernateUtil.rollbackTransaction(_session);
-			throw _ex;
-		}
-		finally {
-			HibernateUtil.closeSession(_session);
-		}
 	}
 
 	public static void exportData() {
@@ -227,24 +232,29 @@ public final class GetUrlController {
 			HttpSendGet _get = new HttpSendGet(_url, new HashMap<String, String>(0), _parameters, _companyDataListener);
 			_get.execute();
 
-			_listInfoData.add(_companyDataListener.getData());
+			if (_listInfoData.size() >= 10) {
+				Session _session = HibernateUtil.beginTransaction();
+				try {
+					new StockInfoDAO().saveOrUpdate(_session, _listInfoData);
+					HibernateUtil.commitTransaction(_session);
+				}
+				catch (HibernateException _ex) {
+					HibernateUtil.rollbackTransaction(_session);
+					throw _ex;
+				}
+				finally {
+					HibernateUtil.closeSession(_session);
+					_listInfoData.clear();
+				}
+			}
+			else {
+				_listInfoData.add(_companyDataListener.getData());
+			}
 
 			System.out.println(_eachStock);
 
 			Thread.sleep(5000);
 		}
 
-		Session _session = HibernateUtil.beginTransaction();
-		try {
-			new StockInfoDAO().saveOrUpdate(_session, _listInfoData);
-			HibernateUtil.commitTransaction(_session);
-		}
-		catch (HibernateException _ex) {
-			HibernateUtil.rollbackTransaction(_session);
-			throw _ex;
-		}
-		finally {
-			HibernateUtil.closeSession(_session);
-		}
 	}
 }
