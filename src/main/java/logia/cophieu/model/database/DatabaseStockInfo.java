@@ -7,7 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,34 +14,48 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+/**
+ * The Class DatabaseStockInfo.
+ *
+ * @author Paul Mai
+ */
 @Entity
 @Table(name = "stock_info")
 @DynamicInsert
 @DynamicUpdate
 public class DatabaseStockInfo {
 
-	@Id
-	@GeneratedValue
-	@Column(name = "id")
-	private Long                   id;
-
 	/** The ma. */
+	@Id
 	@Column(length = 10, name = "ma_co_phieu", unique = true, nullable = false)
 	private String                 maCoPhieu;
 
+	/** The ten cong ty. */
 	@Column(length = 1000, name = "ten_cong_ty", nullable = false)
 	private String                 tenCongTy;
 
+	/** The gia hien tai. */
 	@Column(name = "gia_hien_tai", nullable = false)
 	private Float                  giaHienTai;
 
+	/** The shares. */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<DatabaseShareData> shares;
 
+	/**
+	 * Instantiates a new database stock info.
+	 */
 	public DatabaseStockInfo() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new database stock info.
+	 *
+	 * @param __maCoPhieu the __ma co phieu
+	 * @param __tenCongTy the __ten cong ty
+	 * @param __giaHienTai the __gia hien tai
+	 */
 	public DatabaseStockInfo(String __maCoPhieu, String __tenCongTy, Float __giaHienTai) {
 		super();
 		this.maCoPhieu = __maCoPhieu;
@@ -52,20 +65,8 @@ public class DatabaseStockInfo {
 	}
 
 	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return this.id;
-	}
-
-	/**
-	 * @param __id the id to set
-	 */
-	public void setId(Long __id) {
-		this.id = __id;
-	}
-
-	/**
+	 * Gets the ma co phieu.
+	 *
 	 * @return the maCoPhieu
 	 */
 	public String getMaCoPhieu() {
@@ -73,6 +74,8 @@ public class DatabaseStockInfo {
 	}
 
 	/**
+	 * Sets the ma co phieu.
+	 *
 	 * @param __maCoPhieu the maCoPhieu to set
 	 */
 	public void setMaCoPhieu(String __maCoPhieu) {
@@ -80,6 +83,8 @@ public class DatabaseStockInfo {
 	}
 
 	/**
+	 * Gets the ten cong ty.
+	 *
 	 * @return the tenCongTy
 	 */
 	public String getTenCongTy() {
@@ -87,6 +92,8 @@ public class DatabaseStockInfo {
 	}
 
 	/**
+	 * Sets the ten cong ty.
+	 *
 	 * @param __tenCongTy the tenCongTy to set
 	 */
 	public void setTenCongTy(String __tenCongTy) {
@@ -94,6 +101,8 @@ public class DatabaseStockInfo {
 	}
 
 	/**
+	 * Gets the gia hien tai.
+	 *
 	 * @return the giaHienTai
 	 */
 	public Float getGiaHienTai() {
@@ -101,6 +110,8 @@ public class DatabaseStockInfo {
 	}
 
 	/**
+	 * Sets the gia hien tai.
+	 *
 	 * @param __giaHienTai the giaHienTai to set
 	 */
 	public void setGiaHienTai(Float __giaHienTai) {
@@ -108,6 +119,8 @@ public class DatabaseStockInfo {
 	}
 
 	/**
+	 * Gets the shares.
+	 *
 	 * @return the shares
 	 */
 	public Set<DatabaseShareData> getShares() {
@@ -115,6 +128,8 @@ public class DatabaseStockInfo {
 	}
 
 	/**
+	 * Sets the shares.
+	 *
 	 * @param __shares the shares to set
 	 */
 	public void setShares(Set<DatabaseShareData> __shares) {
