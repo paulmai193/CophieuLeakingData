@@ -2,8 +2,6 @@ package logia.cophieu.report.form;
 
 import java.util.List;
 
-import javax.swing.JProgressBar;
-
 import logia.cophieu.model.DataInterface;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -29,7 +27,7 @@ public interface SheetInterface {
 	 * @return the XSSF cell
 	 */
 	public XSSFCell createCell(int __rowIndex, int __columnIndex, Object __content, boolean __isBold, byte __align, boolean __haveBorder,
-			boolean __wrapText);
+	        boolean __wrapText);
 
 	/**
 	 * Creates the data.
@@ -42,9 +40,8 @@ public interface SheetInterface {
 	 * Creates the data.
 	 *
 	 * @param __listData the __list data
-	 * @param __progressBar the __progress bar
 	 */
-	public void createData(List<DataInterface> __listData, JProgressBar __progressBar);
+	public void createData(List<DataInterface> __listData);
 
 	/**
 	 * Creates the form.

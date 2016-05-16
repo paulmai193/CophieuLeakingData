@@ -4,6 +4,16 @@
 	<groupId>logia.application.CophieuLeakingData</groupId>
 	<artifactId>Cophieu-Leaking-Data</artifactId>
 	<version>0.0.1</version>
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<url>http://192.168.1.6:8081/nexus/content/repositories/releases</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+		</repository>
+	</repositories>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<defaultGoal>clean package</defaultGoal>
@@ -65,7 +75,7 @@
 			<groupId>logia</groupId>
 			<artifactId>logia-httpclient</artifactId>
 			<version>0.0.1</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>logia</groupId>
 			<artifactId>logia-utility</artifactId>

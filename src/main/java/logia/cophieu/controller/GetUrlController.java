@@ -12,10 +12,13 @@ import java.util.concurrent.TimeoutException;
 
 import logia.cophieu.controller.listener.GetCompanyDataListener;
 import logia.cophieu.controller.listener.GetShareDataListener;
+import logia.cophieu.model.DataInterface;
 import logia.cophieu.model.DAO.ShareDataDAO;
 import logia.cophieu.model.DAO.StockInfoDAO;
 import logia.cophieu.model.database.DatabaseShareData;
 import logia.cophieu.model.database.DatabaseStockInfo;
+import logia.cophieu.report.form.implement.CophieuReport;
+import logia.cophieu.report.form.implement.CotucSheet;
 import logia.hibernate.util.HibernateUtil;
 import logia.httpclient.HttpSendGet;
 
@@ -203,8 +206,13 @@ public final class GetUrlController {
 
 	}
 
-	public static void exportData() {
-		// TODO Auto-generated method stub
+	public static void exportData(String __filePath) throws Exception {
+		try (CophieuReport _report = new CophieuReport(__filePath);) {
+			// Get list data
+			List<DataInterface> _listDatas = new ArrayList<DataInterface>(new ShareDataDAO().getList());
+			_report.createData(_listDatas, new CotucSheet(_report.getWorkbook(), "Cổ tức"));
+			_report.exportReport();
+		}
 
 	}
 

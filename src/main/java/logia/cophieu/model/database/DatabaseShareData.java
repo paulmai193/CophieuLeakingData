@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import logia.cophieu.model.DataInterface;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.DynamicInsert;
@@ -29,7 +31,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @IdClass(value = ShareDataPrimaryKey.class)
 @DynamicInsert
 @DynamicUpdate
-public class DatabaseShareData {
+public class DatabaseShareData implements DataInterface {
 
 	// /** The id. */
 	// @Id

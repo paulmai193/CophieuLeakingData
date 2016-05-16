@@ -67,7 +67,7 @@ public final class Application {
 				GetUrlController.scanData(_stocks);
 			}
 			else if (args[0].equalsIgnoreCase("exportdata")) {
-				GetUrlController.exportData();
+				GetUrlController.exportData(args[1]);
 			}
 			else if (args[0].equalsIgnoreCase("initdata")) {
 				List<String> _stocks = FileUtils.readLines(new File(args[1]));

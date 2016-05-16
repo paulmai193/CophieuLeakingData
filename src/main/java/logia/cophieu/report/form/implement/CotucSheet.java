@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.swing.JProgressBar;
-
 import logia.cophieu.model.DataInterface;
 import logia.cophieu.model.GetStockData;
+import logia.cophieu.model.database.DatabaseShareData;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -56,16 +55,46 @@ public class CotucSheet extends AbstractSheet {
 	 * @see logia.cophieu.report.form.SheetInterface#createData(java.util.List, javax.swing.JProgressBar)
 	 */
 	@Override
-	public void createData(List<DataInterface> __listData, JProgressBar __progressBar) {
+	public void createData(List<DataInterface> __listData) {
 		int _rowIndex = 1;
-		__progressBar.setValue(0);
 		for (DataInterface _data : __listData) {
 			if (_data instanceof GetStockData) {
 				this.processShareData((GetStockData) _data, _rowIndex);
 				_rowIndex++;
-				__progressBar.setString("Export report file " + (_rowIndex * 100 / __listData.size()) + "%");
-				__progressBar.setValue(_rowIndex);
 			}
+			else if (_data instanceof DatabaseShareData) {
+				this.processShareData((DatabaseShareData) _data, _rowIndex);
+				_rowIndex++;
+			}
+			System.out.println("Row " + _rowIndex);
+		}
+
+	}
+
+	private void processShareData(DatabaseShareData __data, int __rowIndex) {
+		// STT
+		this.createCell(__rowIndex, 0, __rowIndex, false, AbstractSheet.ALIGN_CENTER, false, false);
+
+		// MaCK
+		this.createCell(__rowIndex, 1, __data.getMaCoPhieu().getMaCoPhieu(), false, AbstractSheet.ALIGN_CENTER, false, false);
+
+		// Default 0 for share value
+		for (Entry<Integer, Integer> _eachItem : YEAR_MAP.entrySet()) {
+			this.createCell(0, _eachItem.getValue(), _eachItem.getKey(), true, ALIGN_CENTER, false, false);
+			this.createCell(__rowIndex, _eachItem.getValue(), 0, false, ALIGN_RIGHT, false, false);
+		}
+
+		// Share value of each year
+		int _year = __data.getNam();
+		try {
+			int _columnIndex = CotucSheet.YEAR_MAP.get(_year);
+			this.createCell(0, _columnIndex, _year, true, AbstractSheet.ALIGN_CENTER, false, false);
+			this.createCell(__rowIndex, _columnIndex, __data.getCoTuc(), false, AbstractSheet.ALIGN_RIGHT, false, false);
+			this.createCell(__rowIndex, 2, __data.getMaCoPhieu().getTenCongTy(), false, AbstractSheet.ALIGN_LEFT, false, false);
+			this.createCell(__rowIndex, 3, __data.getMaCoPhieu().getGiaHienTai(), false, AbstractSheet.ALIGN_RIGHT, false, false);
+		}
+		catch (Exception __e) {
+			this.LOGGER.error("Error data of year " + _year, __e);
 		}
 
 	}
