@@ -123,5 +123,12 @@
 			<version>3.4</version>
 		</dependency>
 		<!-- end Apache commons lang3 -->
+		<!-- Gauva Utility -->
+		<!-- <dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency> -->
+		<!-- end Guava Utility -->
 	</dependencies>
 </project>

@@ -14,8 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import logia.cophieu.model.DataInterface;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.DynamicInsert;
@@ -31,7 +29,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @IdClass(value = ShareDataPrimaryKey.class)
 @DynamicInsert
 @DynamicUpdate
-public class DatabaseShareData implements DataInterface {
+public class DatabaseShareData {
 
 	// /** The id. */
 	// @Id
@@ -48,11 +46,11 @@ public class DatabaseShareData implements DataInterface {
 	/** The nam. */
 	@Column(name = "nam")
 	@Id
-	private int               nam;
+	private int				  nam;
 
 	/** The co tuc. */
 	@Column(name = "co_tuc")
-	private float             coTuc;
+	private float			  coTuc;
 
 	/**
 	 * Instantiates a new database share data.
@@ -63,9 +61,12 @@ public class DatabaseShareData implements DataInterface {
 	/**
 	 * Instantiates a new database share data.
 	 *
-	 * @param __maCoPhieu the __ma co phieu
-	 * @param __nam the __nam
-	 * @param __coTuc the __co tuc
+	 * @param __maCoPhieu
+	 *            the __ma co phieu
+	 * @param __nam
+	 *            the __nam
+	 * @param __coTuc
+	 *            the __co tuc
 	 */
 	public DatabaseShareData(DatabaseStockInfo __maCoPhieu, int __nam, float __coTuc) {
 		super();
@@ -104,7 +105,8 @@ public class DatabaseShareData implements DataInterface {
 	/**
 	 * Sets the ma co phieu.
 	 *
-	 * @param __maCoPhieu the maCoPhieu to set
+	 * @param __maCoPhieu
+	 *            the maCoPhieu to set
 	 */
 	public void setMaCoPhieu(DatabaseStockInfo __maCoPhieu) {
 		this.maCoPhieu = __maCoPhieu;
@@ -122,7 +124,8 @@ public class DatabaseShareData implements DataInterface {
 	/**
 	 * Sets the nam.
 	 *
-	 * @param __nam the nam to set
+	 * @param __nam
+	 *            the nam to set
 	 */
 	public void setNam(int __nam) {
 		this.nam = __nam;
@@ -140,7 +143,8 @@ public class DatabaseShareData implements DataInterface {
 	/**
 	 * Sets the co tuc.
 	 *
-	 * @param __coTuc the coTuc to set
+	 * @param __coTuc
+	 *            the coTuc to set
 	 */
 	public void setCoTuc(float __coTuc) {
 		this.coTuc = __coTuc;
@@ -157,7 +161,7 @@ class ShareDataPrimaryKey implements Serializable {
 	private DatabaseStockInfo maCoPhieu;
 
 	/** The nam. */
-	private int               nam;
+	private int				  nam;
 
 	/**
 	 * Gets the ma co phieu.
@@ -171,7 +175,8 @@ class ShareDataPrimaryKey implements Serializable {
 	/**
 	 * Sets the ma co phieu.
 	 *
-	 * @param __maCoPhieu the maCoPhieu to set
+	 * @param __maCoPhieu
+	 *            the maCoPhieu to set
 	 */
 	public void setMaCoPhieu(DatabaseStockInfo __maCoPhieu) {
 		this.maCoPhieu = __maCoPhieu;
@@ -187,7 +192,8 @@ class ShareDataPrimaryKey implements Serializable {
 	}
 
 	/**
-	 * @param __nam the nam to set
+	 * @param __nam
+	 *            the nam to set
 	 */
 	public void setNam(int __nam) {
 		this.nam = __nam;

@@ -1,7 +1,5 @@
 package logia.cophieu.model;
 
-import java.util.Date;
-import java.util.Map;
 import java.util.SortedMap;
 
 /**
@@ -11,17 +9,17 @@ import java.util.SortedMap;
  */
 public class GetStockData implements DataInterface {
 
-	/** The co tuc. */
-	private SortedMap<Date, Float> coTuc;
+	/** The co tuc. {year, share} */
+	private SortedMap<Integer, Float> coTuc;
 
 	/** The gia hien tai. */
-	private float                  giaHienTai;
+	private float					  giaHienTai;
 
 	/** The ma ck. */
-	private String                 maCk;
+	private String					  maCk;
 
 	/** The ten cty. */
-	private String                 tenCty;
+	private String					  tenCty;
 
 	/**
 	 * Instantiates a new gets the stock data.
@@ -33,10 +31,12 @@ public class GetStockData implements DataInterface {
 	/**
 	 * Instantiates a new gets the stock data.
 	 *
-	 * @param __maCk the __ma ck
-	 * @param __coTuc the __co tuc
+	 * @param __maCk
+	 *            the __ma ck
+	 * @param __coTuc
+	 *            the __co tuc
 	 */
-	public GetStockData(String __maCk, SortedMap<Date, Float> __coTuc) {
+	public GetStockData(String __maCk, SortedMap<Integer, Float> __coTuc) {
 		super();
 		this.maCk = __maCk;
 		this.coTuc = __coTuc;
@@ -47,7 +47,7 @@ public class GetStockData implements DataInterface {
 	 *
 	 * @return the coTuc
 	 */
-	public Map<Date, Float> getCoTuc() {
+	public SortedMap<Integer, Float> getCoTuc() {
 		return this.coTuc;
 	}
 
@@ -81,16 +81,18 @@ public class GetStockData implements DataInterface {
 	/**
 	 * Sets the co tuc.
 	 *
-	 * @param __coTuc the coTuc to set
+	 * @param __coTuc
+	 *            the coTuc to set
 	 */
-	public void setCoTuc(SortedMap<Date, Float> __coTuc) {
+	public void setCoTuc(SortedMap<Integer, Float> __coTuc) {
 		this.coTuc = __coTuc;
 	}
 
 	/**
 	 * Sets the gia hien tai.
 	 *
-	 * @param __giaHienTai the giaHienTai to set
+	 * @param __giaHienTai
+	 *            the giaHienTai to set
 	 */
 	public void setGiaHienTai(float __giaHienTai) {
 		this.giaHienTai = __giaHienTai;
@@ -99,7 +101,8 @@ public class GetStockData implements DataInterface {
 	/**
 	 * Sets the ma ck.
 	 *
-	 * @param __maCk the maCk to set
+	 * @param __maCk
+	 *            the maCk to set
 	 */
 	public void setMaCk(String __maCk) {
 		this.maCk = __maCk;
@@ -108,7 +111,8 @@ public class GetStockData implements DataInterface {
 	/**
 	 * Sets the ten cty.
 	 *
-	 * @param __tenCty the tenCty to set
+	 * @param __tenCty
+	 *            the tenCty to set
 	 */
 	public void setTenCty(String __tenCty) {
 		this.tenCty = __tenCty;
