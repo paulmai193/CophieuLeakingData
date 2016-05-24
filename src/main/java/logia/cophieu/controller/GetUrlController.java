@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -35,21 +34,6 @@ import logia.httpclient.HttpSendGet;
  * @author Paul Mai
  */
 public final class GetUrlController {
-
-	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(GetUrlController.class);
-
-	/** The stocks. */
-	// private List<DataInterface> listDatas;
-
-	// /** The _num process. */
-	// private int numProcess;
-	//
-	// /** The output. */
-	// private String output;
-
-	/** The progress bar. */
-	// private JProgressBar progressBar;
 
 	/**
 	 * Export data.

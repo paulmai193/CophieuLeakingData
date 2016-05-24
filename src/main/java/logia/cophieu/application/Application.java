@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 
 import logia.cophieu.controller.GetUrlController;
 import logia.hibernate.util.HibernateUtil;
@@ -16,12 +15,6 @@ import logia.hibernate.util.HibernateUtil;
  */
 public final class Application {
 
-	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(Application.class);
-
-	/** The _frame. */
-	// private GetUrlFrame _frame;
-
 	/**
 	 * Launch the application.
 	 *
@@ -29,19 +22,6 @@ public final class Application {
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
-		// EventQueue.invokeLater(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// try {
-		// Application window = new Application();
-		// window._frame.setVisible(true);
-		// }
-		// catch (Exception e) {
-		// Application.LOGGER.error("Error when running application", e);
-		// }
-		// }
-		// });
 
 		HibernateUtil.setConfigPath("hibernate.cfg.xml");
 		try {
@@ -88,19 +68,5 @@ public final class Application {
 		}
 
 	}
-
-	/**
-	 * Create the application.
-	 */
-	public Application() {
-		// this.initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	// private void initialize() {
-	// this._frame = new GetUrlFrame();
-	// }
 
 }
