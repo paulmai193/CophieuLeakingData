@@ -37,6 +37,10 @@ public class DatabaseShareData {
 	// @Column(name = "id")
 	// private Long id;
 
+	/** The co tuc. */
+	@Column(name = "co_tuc")
+	private float			  coTuc;
+
 	/** The ma. */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ma_co_phieu", nullable = false)
@@ -47,10 +51,6 @@ public class DatabaseShareData {
 	@Column(name = "nam")
 	@Id
 	private int				  nam;
-
-	/** The co tuc. */
-	@Column(name = "co_tuc")
-	private float			  coTuc;
 
 	/**
 	 * Instantiates a new database share data.
@@ -94,12 +94,40 @@ public class DatabaseShareData {
 	// }
 
 	/**
+	 * Gets the co tuc.
+	 *
+	 * @return the coTuc
+	 */
+	public float getCoTuc() {
+		return this.coTuc;
+	}
+
+	/**
 	 * Gets the ma co phieu.
 	 *
 	 * @return the maCoPhieu
 	 */
 	public DatabaseStockInfo getMaCoPhieu() {
 		return this.maCoPhieu;
+	}
+
+	/**
+	 * Gets the nam.
+	 *
+	 * @return the nam
+	 */
+	public int getNam() {
+		return this.nam;
+	}
+
+	/**
+	 * Sets the co tuc.
+	 *
+	 * @param __coTuc
+	 *            the coTuc to set
+	 */
+	public void setCoTuc(float __coTuc) {
+		this.coTuc = __coTuc;
 	}
 
 	/**
@@ -113,15 +141,6 @@ public class DatabaseShareData {
 	}
 
 	/**
-	 * Gets the nam.
-	 *
-	 * @return the nam
-	 */
-	public int getNam() {
-		return this.nam;
-	}
-
-	/**
 	 * Sets the nam.
 	 *
 	 * @param __nam
@@ -129,25 +148,6 @@ public class DatabaseShareData {
 	 */
 	public void setNam(int __nam) {
 		this.nam = __nam;
-	}
-
-	/**
-	 * Gets the co tuc.
-	 *
-	 * @return the coTuc
-	 */
-	public float getCoTuc() {
-		return this.coTuc;
-	}
-
-	/**
-	 * Sets the co tuc.
-	 *
-	 * @param __coTuc
-	 *            the coTuc to set
-	 */
-	public void setCoTuc(float __coTuc) {
-		this.coTuc = __coTuc;
 	}
 
 }
@@ -163,6 +163,19 @@ class ShareDataPrimaryKey implements Serializable {
 	/** The nam. */
 	private int				  nam;
 
+	@Override
+	public boolean equals(Object __obj) {
+		if (__obj instanceof ShareDataPrimaryKey) {
+			EqualsBuilder _builder = new EqualsBuilder();
+			return _builder.append(this.nam, ((ShareDataPrimaryKey) __obj).getNam())
+			        .append(this.maCoPhieu, ((ShareDataPrimaryKey) __obj).getMaCoPhieu()).build();
+		}
+		else {
+			return false;
+		}
+
+	}
+
 	/**
 	 * Gets the ma co phieu.
 	 *
@@ -170,6 +183,21 @@ class ShareDataPrimaryKey implements Serializable {
 	 */
 	public DatabaseStockInfo getMaCoPhieu() {
 		return this.maCoPhieu;
+	}
+
+	/**
+	 * Gets the nam.
+	 *
+	 * @return the nam
+	 */
+	public int getNam() {
+		return this.nam;
+	}
+
+	@Override
+	public int hashCode() {
+		HashCodeBuilder _builder = new HashCodeBuilder();
+		return _builder.append(this.nam).append(this.maCoPhieu).build();
 	}
 
 	/**
@@ -183,39 +211,11 @@ class ShareDataPrimaryKey implements Serializable {
 	}
 
 	/**
-	 * Gets the nam.
-	 *
-	 * @return the nam
-	 */
-	public int getNam() {
-		return this.nam;
-	}
-
-	/**
 	 * @param __nam
 	 *            the nam to set
 	 */
 	public void setNam(int __nam) {
 		this.nam = __nam;
-	}
-
-	@Override
-	public int hashCode() {
-		HashCodeBuilder _builder = new HashCodeBuilder();
-		return _builder.append(this.nam).append(this.maCoPhieu).build();
-	}
-
-	@Override
-	public boolean equals(Object __obj) {
-		if (__obj instanceof ShareDataPrimaryKey) {
-			EqualsBuilder _builder = new EqualsBuilder();
-			return _builder.append(this.nam, ((ShareDataPrimaryKey) __obj).getNam())
-			        .append(this.maCoPhieu, ((ShareDataPrimaryKey) __obj).getMaCoPhieu()).build();
-		}
-		else {
-			return false;
-		}
-
 	}
 
 }

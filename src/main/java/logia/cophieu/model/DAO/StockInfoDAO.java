@@ -23,12 +23,13 @@ public class StockInfoDAO extends AbstractDAO<DatabaseStockInfo, Long> {
 	/**
 	 * Select by ma co phieu.
 	 *
-	 * @param __maCoPhieu the __ma co phieu
+	 * @param __maCoPhieu
+	 *            the __ma co phieu
 	 * @return the database stock info
 	 */
 	public DatabaseStockInfo selectByMaCoPhieu(String __maCoPhieu) {
 		String queryString = "from DatabaseStockInfo where maCoPhieu = '" + __maCoPhieu + "'";
-		return selectUniqueByQuery(queryString);
+		return this.selectUniqueByQuery(queryString);
 	}
 
 }

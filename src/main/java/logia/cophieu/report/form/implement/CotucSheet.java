@@ -98,10 +98,11 @@ public class CotucSheet extends AbstractSheet {
 		        AbstractSheet.ALIGN_CENTER, false, false);
 
 		// Default 0 for share value
-		for (Entry<Integer, Integer> _eachItem : YEAR_MAP.entrySet()) {
-			this.createCell(0, _eachItem.getValue(), _eachItem.getKey(), true, ALIGN_CENTER, false,
-			        false);
-			this.createCell(__rowIndex, _eachItem.getValue(), 0, false, ALIGN_RIGHT, false, false);
+		for (Entry<Integer, Integer> _eachItem : CotucSheet.YEAR_MAP.entrySet()) {
+			this.createCell(0, _eachItem.getValue(), _eachItem.getKey(), true,
+			        AbstractSheet.ALIGN_CENTER, false, false);
+			this.createCell(__rowIndex, _eachItem.getValue(), 0, false, AbstractSheet.ALIGN_RIGHT,
+			        false, false);
 		}
 
 		// Share value of each year

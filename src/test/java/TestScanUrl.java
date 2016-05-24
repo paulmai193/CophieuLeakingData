@@ -21,16 +21,23 @@ public class TestScanUrl {
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
-	 * @throws UnsupportedOperationException the unsupported operation exception
-	 * @throws TimeoutException the timeout exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws KeyManagementException the key management exception
-	 * @throws NoSuchAlgorithmException the no such algorithm exception
-	 * @throws KeyStoreException the key store exception
+	 * @param args
+	 *            the arguments
+	 * @throws UnsupportedOperationException
+	 *             the unsupported operation exception
+	 * @throws TimeoutException
+	 *             the timeout exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws KeyManagementException
+	 *             the key management exception
+	 * @throws NoSuchAlgorithmException
+	 *             the no such algorithm exception
+	 * @throws KeyStoreException
+	 *             the key store exception
 	 */
-	public static void main(String[] args) throws UnsupportedOperationException, TimeoutException, IOException, KeyManagementException,
-	        NoSuchAlgorithmException, KeyStoreException {
+	public static void main(String[] args) throws UnsupportedOperationException, TimeoutException,
+	        IOException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
 		String _requestURL = "http://www.cophieu68.vn/events.php";
 		Map<String, String> _parameters = new HashMap<String, String>();
 		_parameters.put("event_type", "1");
@@ -38,7 +45,8 @@ public class TestScanUrl {
 		_parameters.put("search", "Tìm+Kiếm");
 
 		HttpResponseListener<GetStockData> _listener = new GetShareDataListener();
-		HttpSendGet _get = new HttpSendGet(_requestURL, new HashMap<String, String>(0), _parameters, _listener);
+		HttpSendGet _get = new HttpSendGet(_requestURL, new HashMap<String, String>(0), _parameters,
+		        _listener);
 		_get.execute();
 	}
 }

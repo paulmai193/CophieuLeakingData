@@ -5,9 +5,9 @@
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cophieu</property>
-		<property name="hibernate.connection.username">cophieu</property>
-		<property name="hibernate.connection.password">PM_cohphieu_2016</property>
+		<property name="hibernate.connection.url">jdbc:mysql://192.168.1.33:3306/cophieu</property>
+		<property name="hibernate.connection.username">serversultimate</property>
+<!-- 		<property name="hibernate.connection.password">PM_cohphieu_2016</property> -->
 		<property name="hibernate.connection.useUnicode">true</property>
 		<property name="hibernate.connection.characterEncoding">UTF-8</property>
 		<property name="hibernate.connection.charSet">UTF-8</property>

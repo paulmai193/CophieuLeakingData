@@ -3,8 +3,6 @@ package logia.cophieu.report.form.implement;
 import java.util.Calendar;
 import java.util.Date;
 
-import logia.cophieu.report.form.SheetInterface;
-
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -14,6 +12,8 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import logia.cophieu.report.form.SheetInterface;
 
 /**
  * The Class AbstractSheet.
@@ -32,7 +32,7 @@ public abstract class AbstractSheet implements SheetInterface {
 	public static final byte  ALIGN_RIGHT  = 2;
 
 	/** The logger. */
-	protected final Logger    LOGGER       = Logger.getLogger(this.getClass());
+	protected final Logger	  LOGGER	   = Logger.getLogger(this.getClass());
 
 	/** The worksheet. */
 	protected final XSSFSheet worksheet;
@@ -40,8 +40,10 @@ public abstract class AbstractSheet implements SheetInterface {
 	/**
 	 * Instantiates a new abstract sheet.
 	 *
-	 * @param workbook the workbook
-	 * @param sheetname the sheetname
+	 * @param workbook
+	 *            the workbook
+	 * @param sheetname
+	 *            the sheetname
 	 */
 	public AbstractSheet(XSSFWorkbook workbook, String sheetname) {
 		this.worksheet = workbook.createSheet(sheetname);
@@ -51,10 +53,12 @@ public abstract class AbstractSheet implements SheetInterface {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.nowktv.report.form.SheetInterface#createCell(int, int, java.lang.Object, boolean, byte, boolean)
+	 * @see com.nowktv.report.form.SheetInterface#createCell(int, int, java.lang.Object, boolean,
+	 * byte, boolean)
 	 */
 	@Override
-	public XSSFCell createCell(int rowIndex, int columnIndex, Object content, boolean isBold, byte align, boolean haveBorder, boolean wrapText) {
+	public XSSFCell createCell(int rowIndex, int columnIndex, Object content, boolean isBold,
+	        byte align, boolean haveBorder, boolean wrapText) {
 		XSSFRow row = this.worksheet.getRow(rowIndex);
 		if (row == null) {
 			row = this.worksheet.createRow(rowIndex);
@@ -128,7 +132,9 @@ public abstract class AbstractSheet implements SheetInterface {
 		return cell;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see logia.cophieu.report.form.SheetInterface#getCellValue(int, int)
 	 */
 	@Override

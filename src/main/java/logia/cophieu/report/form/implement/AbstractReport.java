@@ -4,10 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import logia.cophieu.report.form.ReportInterface;
-
 import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import logia.cophieu.report.form.ReportInterface;
 
 /**
  * The Class AbstractReport.
@@ -20,16 +20,18 @@ public abstract class AbstractReport implements ReportInterface {
 	protected final FileOutputStream exportFile;
 
 	/** The logger. */
-	protected final Logger           LOGGER = Logger.getLogger(this.getClass());
+	protected final Logger			 LOGGER	= Logger.getLogger(this.getClass());
 
 	/** The workbook. */
-	protected final XSSFWorkbook     workbook;
+	protected final XSSFWorkbook	 workbook;
 
 	/**
 	 * Instantiates a new abstract report.
 	 *
-	 * @param filePath the file path
-	 * @throws FileNotFoundException the file not found exception
+	 * @param filePath
+	 *            the file path
+	 * @throws FileNotFoundException
+	 *             the file not found exception
 	 */
 	public AbstractReport(String filePath) throws FileNotFoundException {
 		this.exportFile = new FileOutputStream(filePath);

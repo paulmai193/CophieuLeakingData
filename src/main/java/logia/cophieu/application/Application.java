@@ -3,11 +3,11 @@ package logia.cophieu.application;
 import java.io.File;
 import java.util.List;
 
-import logia.cophieu.controller.GetUrlController;
-import logia.hibernate.util.HibernateUtil;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+
+import logia.cophieu.controller.GetUrlController;
+import logia.hibernate.util.HibernateUtil;
 
 /**
  * The Class Application.
@@ -23,16 +23,10 @@ public final class Application {
 	// private GetUrlFrame _frame;
 
 	/**
-	 * Create the application.
-	 */
-	public Application() {
-		// this.initialize();
-	}
-
-	/**
 	 * Launch the application.
 	 *
-	 * @param args the arguments
+	 * @param args
+	 *            the arguments
 	 */
 	public static void main(String[] args) {
 		// EventQueue.invokeLater(new Runnable() {
@@ -67,7 +61,8 @@ public final class Application {
 				GetUrlController.scanData(_stocks);
 			}
 			else if (args[0].equalsIgnoreCase("exportdata")) {
-				GetUrlController.exportData(args[1]);
+				GetUrlController.exportData(args[1], Integer.parseInt(args[2]),
+				        Integer.parseInt(args[3]));
 			}
 			else if (args[0].equalsIgnoreCase("initdata")) {
 				List<String> _stocks = FileUtils.readLines(new File(args[1]));
@@ -92,6 +87,13 @@ public final class Application {
 			HibernateUtil.releaseFactory();
 		}
 
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Application() {
+		// this.initialize();
 	}
 
 	/**

@@ -20,18 +20,20 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+
 import logia.cophieu.model.GetStockData;
 import logia.cophieu.model.database.DatabaseShareData;
 import logia.cophieu.model.database.DatabaseStockInfo;
 import logia.httpclient.HttpUtility;
 import logia.httpclient.response.listener.HttpResponseListener;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-
 /**
- * The listener interface for receiving getShareData events. The class that is interested in processing a getShareData event implements this
- * interface, and the object created with that class is registered with a component using the component's
+ * The listener interface for receiving getShareData events. The class that is interested in
+ * processing a getShareData event implements this
+ * interface, and the object created with that class is registered with a component using the
+ * component's
  * <code>addGetShareDataListener<code> method. When
  * the getShareData event occurs, that object's appropriate
  * method is invoked.
@@ -41,7 +43,7 @@ import org.apache.log4j.Logger;
 public class GetShareDataListener implements HttpResponseListener<GetStockData> {
 
 	/** The Constant LOGGER. */
-	private static final Logger     LOGGER = Logger.getLogger(GetShareDataListener.class);
+	private static final Logger		LOGGER = Logger.getLogger(GetShareDataListener.class);
 
 	/** The data. */
 	// private GetStockData data;
@@ -49,9 +51,9 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	/** The share data. */
 	// private DatabaseShareData shareData;
 
-	private List<DatabaseShareData> listShareData;
+	private List<DatabaseShareData>	listShareData;
 
-	private DatabaseStockInfo       stockInfo;
+	private DatabaseStockInfo		stockInfo;
 
 	/** The stock. */
 	// private String stock;
@@ -72,13 +74,27 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	/**
 	 * Instantiates a new gets the share data listener.
 	 *
-	 * @param __stock the __stock
+	 * @param __stock
+	 *            the __stock
 	 */
 	// public GetShareDataListener(String __stock) {
 	// super();
 	// // this.data = new GetStockData();
 	// this.stock = __stock;
 	// }
+
+	/**
+	 * Gets the list share data.
+	 *
+	 * @return the shareData
+	 */
+	// public DatabaseShareData getShareData() {
+	// return this.shareData;
+	// }
+
+	public List<DatabaseShareData> getListShareData() {
+		return this.listShareData;
+	}
 
 	/**
 	 * Gets the data.
@@ -92,10 +108,12 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see logia.httpclient.response.listener.HttpResponseListener#onResponse(logia.httpclient.HttpUtility)
+	 * @see logia.httpclient.response.listener.HttpResponseListener#onResponse(logia.httpclient.
+	 * HttpUtility)
 	 */
 	@Override
-	public void onResponse(HttpUtility __httpUtility) throws UnsupportedOperationException, IOException {
+	public void onResponse(HttpUtility __httpUtility)
+	        throws UnsupportedOperationException, IOException {
 		String _html;
 		try (InputStream _inputStream = __httpUtility.getHttpResponse().getEntity().getContent();) {
 			_html = IOUtils.toString(_inputStream, StandardCharsets.UTF_8);
@@ -103,7 +121,8 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 		catch (UnsupportedOperationException | IOException e) {
 			throw e;
 		}
-		_html = _html.replaceAll("/>\\s</", "><").replaceAll(">\\s</", "><").replaceAll("\t", "").replaceAll("\r\n", "");
+		_html = _html.replaceAll("/>\\s</", "><").replaceAll(">\\s</", "><").replaceAll("\t", "")
+		        .replaceAll("\r\n", "");
 
 		List<String> _listElement = this.readRow(_html);
 		GetShareDataListener.LOGGER.debug(Arrays.toString(_listElement.toArray()));
@@ -148,7 +167,8 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 				if (_shareMap.containsKey(_calendar.get(Calendar.YEAR))) {
 					// _totalShare = _shareMap.get(_year) + _eachShare.getValue();
 					// _totalShare += _eachShare.getValue();
-					_shareMap.put(_calendar.get(Calendar.YEAR), _shareMap.get(_calendar.get(Calendar.YEAR)) + _eachShare.getValue());
+					_shareMap.put(_calendar.get(Calendar.YEAR),
+					        _shareMap.get(_calendar.get(Calendar.YEAR)) + _eachShare.getValue());
 				}
 				else {
 					// _year = _calendar.get(Calendar.YEAR);
@@ -159,7 +179,8 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 		}
 
 		for (Entry<Integer, Float> _eachShare : _shareMap.entrySet()) {
-			DatabaseShareData _data = new DatabaseShareData(stockInfo, _eachShare.getKey(), _eachShare.getValue());
+			DatabaseShareData _data = new DatabaseShareData(this.stockInfo, _eachShare.getKey(),
+			        _eachShare.getValue());
 			this.listShareData.add(_data);
 		}
 
@@ -168,11 +189,14 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	/**
 	 * Read date.
 	 *
-	 * @param __webContent the __web content
+	 * @param __webContent
+	 *            the __web content
 	 * @return the string
 	 */
 	private String readDate(String __webContent) {
-		Matcher _matcher = Pattern.compile("<td class=\"td_bottom3 td_bg1\" align=\"right\">(.*?)</td>").matcher(__webContent);
+		Matcher _matcher = Pattern
+		        .compile("<td class=\"td_bottom3 td_bg1\" align=\"right\">(.*?)</td>")
+		        .matcher(__webContent);
 		int _count = 0;
 		while (_matcher.find()) {
 			_count++;
@@ -184,28 +208,17 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	}
 
 	/**
-	 * Gets the list share data.
-	 *
-	 * @return the shareData
-	 */
-	// public DatabaseShareData getShareData() {
-	// return this.shareData;
-	// }
-
-	public List<DatabaseShareData> getListShareData() {
-		return this.listShareData;
-	}
-
-	/**
 	 * Read row.
 	 *
-	 * @param __webContent the __web content
+	 * @param __webContent
+	 *            the __web content
 	 * @return the list
 	 */
 	private List<String> readRow(String __webContent) {
 		List<String> _contents = new ArrayList<String>();
 
-		Matcher _matcher = Pattern.compile("<tr class=\"tr_row2\">(.*?)</tr>").matcher(__webContent);
+		Matcher _matcher = Pattern.compile("<tr class=\"tr_row2\">(.*?)</tr>")
+		        .matcher(__webContent);
 		while (_matcher.find()) {
 			String _tmpString = _matcher.group(1).trim();
 			_contents.add(_tmpString);
@@ -223,12 +236,15 @@ public class GetShareDataListener implements HttpResponseListener<GetStockData> 
 	/**
 	 * Read share.
 	 *
-	 * @param __webContent the __web content
+	 * @param __webContent
+	 *            the __web content
 	 * @return the string
 	 */
 	private String readShare(String __webContent) {
-		Matcher _matcher = Pattern.compile("<td class=\"td_bottom3 td_bg2\" align=\"right\" style=\" font-weight:bold\">(.*?)</td>").matcher(
-		        __webContent);
+		Matcher _matcher = Pattern
+		        .compile(
+		                "<td class=\"td_bottom3 td_bg2\" align=\"right\" style=\" font-weight:bold\">(.*?)</td>")
+		        .matcher(__webContent);
 		while (_matcher.find()) {
 			return _matcher.group(1).trim();
 		}
