@@ -53,7 +53,7 @@ public final class GetUrlController {
 				        .get(_databaseShareData.getMaCoPhieu().getMaCoPhieu());
 				SortedMap<Integer, Float> _coTuc;
 				if (_stockData == null) {
-					_coTuc = generateDefaultShareData(__from, __end);
+					_coTuc = GetUrlController.generateDefaultShareData(__from, __end);
 					_stockData = new GetStockData(_databaseShareData.getMaCoPhieu().getMaCoPhieu(),
 					        _coTuc);
 					_stockData.setGiaHienTai(_databaseShareData.getMaCoPhieu().getGiaHienTai());
@@ -122,7 +122,8 @@ public final class GetUrlController {
 			        _companyDataListener);
 			_get.execute();
 
-			if (_listInfoData.size() >= 10) {
+			_listInfoData.add(_companyDataListener.getData());
+			if (_listInfoData.size() >= 20) {
 				Session _session = HibernateUtil.beginTransaction();
 				try {
 					new StockInfoDAO().saveOrUpdate(_session, _listInfoData);
@@ -137,9 +138,6 @@ public final class GetUrlController {
 					_listInfoData.clear();
 				}
 			}
-			else {
-				_listInfoData.add(_companyDataListener.getData());
-			}
 
 			System.out.println(_eachStock);
 
@@ -147,91 +145,6 @@ public final class GetUrlController {
 		}
 
 	}
-
-	/**
-	 * Scan stock info.
-	 *
-	 * @throws KeyManagementException
-	 *             the key management exception
-	 * @throws NoSuchAlgorithmException
-	 *             the no such algorithm exception
-	 * @throws KeyStoreException
-	 *             the key store exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws UnsupportedOperationException
-	 *             the unsupported operation exception
-	 * @throws TimeoutException
-	 *             the timeout exception
-	 */
-	// public GetUrlController(String __output, JProgressBar __progressBar, List<String> __stocks) {
-	// super();
-	// // this.numProcess = 0;
-	// // this.output = __output;
-	// // this.progressBar = __progressBar;
-	// this.stocks = __stocks;
-	// // this.listDatas = new ArrayList<DataInterface>();
-	// }
-
-	/**
-	 * Scan url.
-	 */
-	// public synchronized void scanUrl() {
-	// try {
-	// // this.progressBar.setString("Scanning link 0%");
-	//
-	// for (String _eachStock : this.stocks) {
-	// // Execute get share query
-	// String _url = "http://www.cophieu68.vn/events.php";
-	// Map<String, String> _parameters = new HashMap<String, String>();
-	// _parameters.put("event_type", "1");
-	// _parameters.put("search", "Tìm+Kiếm");
-	// _parameters.put("stockname", _eachStock);
-	// GetShareDataListener _shareDataListener = new GetShareDataListener(_eachStock);
-	// HttpSendGet _get = new HttpSendGet(_url, new HashMap<String, String>(0), _parameters,
-	// _shareDataListener);
-	// _get.execute();
-	//
-	// // Execute get company information query
-	// _url = "http://www.cophieu68.vn/snapshot.php";
-	// _parameters.clear();
-	// _parameters.put("id", _eachStock);
-	// GetCompanyDataListener _companyDataListener = new
-	// GetCompanyDataListener(_shareDataListener.getData());
-	// _get = new HttpSendGet(_url, new HashMap<String, String>(0), _parameters,
-	// _companyDataListener);
-	// _get.execute();
-	//
-	// // this.listDatas.add(_shareDataListener.getData());
-	//
-	// this.numProcess++;
-	// // this.progressBar.setString("Scanning link " + (this.numProcess * 100 / this.stocks.size())
-	// + "%");
-	// // this.progressBar.setValue(this.numProcess);
-	//
-	// Thread.sleep(500);
-	// }
-	// // try (CophieuReport _report = new CophieuReport(this.output)) {
-	// // // Export report
-	// // this.progressBar.setString("Export report file 0%");
-	// // _report.createData(this.listDatas, new CotucSheet(_report.getWorkbook(), "Cổ tức"),
-	// this.progressBar);
-	// //
-	// // _report.exportReport();
-	// //
-	// // }
-	// // catch (Exception _e) {
-	// // throw _e;
-	// // }
-	// }
-	// catch (Exception _e) {
-	// GetUrlController.LOGGER.error("Error when reading data from url", _e);
-	// }
-	// finally {
-	// // this.progressBar.setString("Finish!");
-	// // this.progressBar.setValue(0);
-	// }
-	// }
 
 	/**
 	 * Scan data.
@@ -271,7 +184,8 @@ public final class GetUrlController {
 				        _parameters, _shareDataListener);
 				_get.execute();
 
-				if (_listData.size() >= 10) {
+				_listData.addAll(_shareDataListener.getListShareData());
+				if (_listData.size() >= 20) {
 					Session _session = HibernateUtil.beginTransaction();
 					try {
 						new ShareDataDAO().saveOrUpdate(_session, _listData);
@@ -286,11 +200,11 @@ public final class GetUrlController {
 						_listData.clear();
 					}
 				}
-				else {
-					_listData.addAll(_shareDataListener.getListShareData());
-				}
 
 				System.out.println(_eachStock);
+			}
+			else {
+				System.out.println("CANNOT FIND " + _eachStock + " IN DATABASE");
 			}
 
 			Thread.sleep(5000);
